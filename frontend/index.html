@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dance Plan It</title>
+</head>
+<body>
+    <h1>Spotify Web Playback SDK Quick Start</h1>
+    <button id="togglePlay">Toggle Play</button>
+
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = 'BQDtykk0nFaaNMgLCyv4gEHlslZJ9Q0Vlt0uD82FaHlPaM4Bbwo3ArxxsBmXYzyPrNTbv1Qq-0_C7szDGYSbAh2SA1IkHdhysCFqnuqoxEDi6VUjYTe9FU36iUX7sEc7fsrou2WGDxA5t7MCFRzZQHt9LziaBzHEFdhIYgT9LI1WZT90qMTxNnLEmeoZnfKNBII';
+            const player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: cb => { cb(token); },
+                volume: 0.5
+            });
+            
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            player.addListener('initialization_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('account_error', ({ message }) => {
+                console.error(message);
+            });
+
+            document.getElementById('togglePlay').onclick = function() {
+              player.togglePlay();
+            };
+
+            player.connect();
+
+            const play = ({spotify_uri, playerInstance: {_options: {getOAuthToken}}}) => {
+                getOAuthToken(token => {
+                    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ uris: [spotify_uri] }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                    });
+                });
+            };
+
+
+        play({
+        playerInstance: player,
+        spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
+        });
+        }
+        
+    </script>
+</body>
+</html>
