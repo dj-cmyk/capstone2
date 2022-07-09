@@ -1,57 +1,43 @@
--- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
--- Modify this code to update the DB schema diagram.
--- To reset the sample schema, replace everything with
--- two dots ('..' - without quotes).
 
-CREATE TABLE "teachers" (
-    "teacherID" int   NOT NULL,
-    "username" string   NOT NULL,
-    "first_name" string   NOT NULL,
-    "last_name" string   NOT NULL,
-    "email" string   NOT NULL,
-    "password" string   NOT NULL,
-    CONSTRAINT "pk_teachers" PRIMARY KEY (
-        "teacherID"
-     ),
-    CONSTRAINT "uc_teachers_username" UNIQUE (
-        "username"
-    )
-);
+-- CREATE TABLE "teachers" (
+--     "teacherID" int   NOT NULL,
+--     "username" string   NOT NULL,
+--     "first_name" string   NOT NULL,
+--     "last_name" string   NOT NULL,
+--     "email" string   NOT NULL,
+--     "password" string   NOT NULL,
+--     CONSTRAINT "pk_teachers" PRIMARY KEY (
+--         "teacherID"
+--      ),
+--     CONSTRAINT "uc_teachers_username" UNIQUE (
+--         "username"
+--     )
+-- );
 
 CREATE TABLE "exercise_categories" (
-    "exerciseCategoryID" int   NOT NULL,
-    "name" string   NOT NULL,
-    CONSTRAINT "pk_exercise_categories" PRIMARY KEY (
-        "exerciseCategoryID"
-     )
+    "exerciseCategoryID" SERIAL PRIMARY KEY,
+    "name" text NOT NULL
 );
 
 CREATE TABLE "level_categories" (
-    "levelCategoryID" int   NOT NULL,
-    "name" string   NOT NULL,
-    CONSTRAINT "pk_level_categories" PRIMARY KEY (
-        "levelCategoryID"
-     )
+    "levelCategoryID" SERIAL PRIMARY KEY,
+    "name" text NOT NULL
 );
 
 CREATE TABLE "levels" (
-    "levelID" int   NOT NULL,
-    "name" string   NOT NULL,
-    "levelCategoryId" int   NOT NULL,
-    CONSTRAINT "pk_levels" PRIMARY KEY (
-        "levelID"
-     )
+    "levelID" SERIAL PRIMARY KEY,
+    "name" text NOT NULL,
+    "levelCategoryId" int NOT NULL
 );
 
 CREATE TABLE "exercises" (
-    "exerciseID" int   NOT NULL,
+    "exerciseID" SERIAL NOT NULL,
     "levelCategoryID" int   NOT NULL,
     "exerciseCategoryID" int   NOT NULL,
-    "description" string   NOT NULL,
+    "description" text   NOT NULL,
     "hasProp" boolean   NOT NULL,
-    "propDescription" string   NOT NULL,
+    "propDescription" text,
     CONSTRAINT "pk_exercises" PRIMARY KEY (
         "exerciseID"
      )
@@ -59,15 +45,15 @@ CREATE TABLE "exercises" (
 
 CREATE TABLE "class_exercises" (
     "lessonPlanID" int   NOT NULL,
-    "exerciseID" int   NOT NULL,
-    -- this comes from external API? but needs to be stored in db to access??
-    "songID" int   NOT NULL
+    "exerciseID" int   NOT NULL, 
+    "notes" text
 );
 
 CREATE TABLE "lesson_plans" (
-    "lessonPlanID" int   NOT NULL,
+    "lessonPlanID" SERIAL NOT NULL,
     "order" int   NOT NULL,
-    "theme" string   NULL,
+    "theme" text,
+    "focus" text,
     "levelID" int   NOT NULL,
     CONSTRAINT "pk_lesson_plans" PRIMARY KEY (
         "lessonPlanID"
@@ -75,15 +61,15 @@ CREATE TABLE "lesson_plans" (
 );
 
 -- this must populate from API so maybe it should just be a link?
-CREATE TABLE "songs" (
-    "songID" int   NOT NULL,
-    "name" string   NOT NULL,
-    "artist" string   NOT NULL,
-    "album" string   NOT NULL,
-    CONSTRAINT "pk_songs" PRIMARY KEY (
-        "songID"
-     )
-);
+-- CREATE TABLE "songs" (
+--     "songID" int   NOT NULL,
+--     "name" string   NOT NULL,
+--     "artist" string   NOT NULL,
+--     "album" string   NOT NULL,
+--     CONSTRAINT "pk_songs" PRIMARY KEY (
+--         "songID"
+--      )
+-- );
 
 ALTER TABLE "levels" ADD CONSTRAINT "fk_levels_levelCategoryId" FOREIGN KEY("levelCategoryId")
 REFERENCES "level_categories" ("levelCategoryID");
@@ -100,8 +86,8 @@ REFERENCES "lesson_plans" ("lessonPlanID");
 ALTER TABLE "class_exercises" ADD CONSTRAINT "fk_class_exercises_exerciseID" FOREIGN KEY("exerciseID")
 REFERENCES "exercises" ("exerciseID");
 
-ALTER TABLE "class_exercises" ADD CONSTRAINT "fk_class_exercises_songID" FOREIGN KEY("songID")
-REFERENCES "songs" ("songID");
+-- ALTER TABLE "class_exercises" ADD CONSTRAINT "fk_class_exercises_songID" FOREIGN KEY("songID")
+-- REFERENCES "songs" ("songID");
 
 ALTER TABLE "lesson_plans" ADD CONSTRAINT "fk_lesson_plans_levelID" FOREIGN KEY("levelID")
 REFERENCES "levels" ("levelID");
