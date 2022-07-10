@@ -10,6 +10,7 @@ const { NotFoundError } = require("./expressError");
 // const usersRoutes = require("./routes/users");
 const exercisesRoutes = require("./routes/exercises");
 const lessonPlansRoutes = require("./routes/lesson_plans");
+const classExercisesRoutes = require("./routes/class_exercises");
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.json());
 // app.use("/users", usersRoutes);
 app.use("/exercises", exercisesRoutes);
 app.use("/lessonPlans", lessonPlansRoutes);
+app.use("/classExercises", classExercisesRoutes);
 
 
 /** Handle 404 errors -- this matches everything */
