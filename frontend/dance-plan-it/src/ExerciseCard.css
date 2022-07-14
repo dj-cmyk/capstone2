@@ -1,0 +1,32 @@
+.Card {
+    margin: 10px;
+    text-decoration: none;
+    border: 1px solid black;
+    width: 85%;
+}
+
+
+.Card-Title {
+    font-weight: bold;
+    font-size: large;
+    color: rgb(99, 122, 153);
+}
+
+.Card-Text {
+    font-style: italic;
+    color: black;
+    padding: 5px;
+}
+
+.Card-SubText {
+    font-style: normal;
+    font-size: small;
+    color: black;
+}
+
+.Section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

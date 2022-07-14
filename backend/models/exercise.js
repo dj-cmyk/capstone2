@@ -53,13 +53,16 @@ class Exercise {
      * */
   
      static async findAll() {
-        let query = `SELECT "exerciseID",
-                            "levelCategoryID",
-                            "exerciseCategoryID",
-                            description,
-                            "hasProp",
-                            "propDescription"
-                     FROM exercises`;
+        let query = `SELECT e."exerciseID",
+                            e."levelCategoryID",
+                            e."exerciseCategoryID",
+                            c."name",
+                            e.description,
+                            e."hasProp",
+                            e."propDescription"
+                     FROM exercises AS e
+                     JOIN exercise_categories AS c
+                     ON e."exerciseCategoryID" = c."exerciseCategoryID"`;
         // let whereExpressions = [];
         // let queryValues = [];
     
