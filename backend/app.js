@@ -12,7 +12,7 @@ const { NotFoundError } = require("./expressError");
 // const usersRoutes = require("./routes/users");
 const exercisesRoutes = require("./routes/exercises");
 const lessonPlansRoutes = require("./routes/lesson_plans");
-const classExercisesRoutes = require("./routes/class_exercises");
+const classesRoutes = require("./routes/classes");
 
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(express.json());
 // app.use("/users", usersRoutes);
 app.use("/exercises", exercisesRoutes);
 app.use("/lessonPlans", lessonPlansRoutes);
-app.use("/classExercises", classExercisesRoutes);
+app.use("/classes", classesRoutes);
 
 
 
@@ -47,7 +47,7 @@ app.post('/login', (req, res) => {
                 expiresIn: data.body.expires_in
             })
         }).catch(() => {
-            console.log("here is a problem")
+            // console.log("here is a problem")
             res.sendStatus(400)
         })      
 })

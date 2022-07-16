@@ -10,12 +10,12 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 
 class Exercise {
     /** Create an exercise, update db, return new exercise data.
-     * data should be { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+     * data should be { levelCategoryID, exerciseCategoryID, description }
      *
-     * Returns { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+     * Returns { levelCategoryID, exerciseCategoryID, description }
      * */
   
-    static async create({ levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }) {
+    static async create({ levelCategoryID, exerciseCategoryID, description }) {
       const duplicateCheck = await db.query(
             `SELECT "exerciseID"
              FROM exercises
@@ -29,15 +29,13 @@ class Exercise {
   
       const result = await db.query(
             `INSERT INTO exercises
-             ("levelCategoryID", "exerciseCategoryID", description, "hasProp", "propDescription")
-             VALUES ($1, $2, $3, $4, $5)
-             RETURNING "levelCategoryID", "exerciseCategoryID", description, "hasProp", "propDescription"`,
+             ("levelCategoryID", "exerciseCategoryID", description)
+             VALUES ($1, $2, $3)
+             RETURNING "levelCategoryID", "exerciseCategoryID", description`,
           [
             levelCategoryID,
             exerciseCategoryID,
-            description,
-            hasProp,
-            propDescription,
+            description
           ],
       );
       const exercise = result.rows[0];
@@ -56,13 +54,11 @@ class Exercise {
         let query = `SELECT e."exerciseID",
                             e."levelCategoryID",
                             e."exerciseCategoryID",
-                            c."name",
-                            e.description,
-                            e."hasProp",
-                            e."propDescription"
+                            ec."name",
+                            e.description
                      FROM exercises AS e
-                     JOIN exercise_categories AS c
-                     ON e."exerciseCategoryID" = c."exerciseCategoryID"`;
+                     JOIN exercise_categories AS ec
+                     ON e."exerciseCategoryID" = ec."exerciseCategoryID"`;
         // let whereExpressions = [];
         // let queryValues = [];
     
@@ -102,7 +98,7 @@ class Exercise {
 
      /************ Given an exercise id, return data about exercise.
    *
-   * Returns { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+   * Returns { levelCategoryID, exerciseCategoryID, description}
    *
    * Throws NotFoundError if not found.
    **/
@@ -112,9 +108,7 @@ class Exercise {
           `SELECT 
                 "levelCategoryID", 
                 "exerciseCategoryID", 
-                description, 
-                "hasProp", 
-                "propDescription"
+                description
            FROM exercises
            WHERE "exerciseID" = $1`,
         [id]);
@@ -132,9 +126,9 @@ class Exercise {
    * This is a "partial update" --- it's fine if data doesn't contain all the
    * fields; this only changes provided ones.
    *
-   * Data can include: {description, hasProp, propDescription}
+   * Data can include: {description}
    *
-   * Returns {levelCategoryID, exerciseCategoryID, description, hasProp, propDescription}
+   * Returns {levelCategoryID, exerciseCategoryID, description}
    *
    * Throws NotFoundError if not found.
    */
@@ -143,9 +137,7 @@ class Exercise {
     const { setCols, values } = sqlForPartialUpdate(
         data,
         {
-          description: "description",
-          hasProp: "hasProp",
-          propDescription: "propDescription"
+          description: "description"
         });
     const handleVarIdx = "$" + (values.length + 1);
 
@@ -154,9 +146,7 @@ class Exercise {
                       WHERE "exerciseID" = ${handleVarIdx} 
                       RETURNING "levelCategoryID", 
                                 "exerciseCategoryID", 
-                                description, 
-                                "hasProp", 
-                                "propDescription"`;
+                                description`;
     const result = await db.query(querySql, [...values, id]);
     const exercise = result.rows[0];
 

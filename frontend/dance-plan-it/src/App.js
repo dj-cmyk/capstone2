@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from './Home';
 import LessonPlan from './LessonPlans';
 import Dashboard from './Dashboard';
+import ClassExercises from './ClassExercises';
 
 
 
@@ -19,10 +20,11 @@ function App() {
         <NavBar />
         <main>
           <Routes>
-            { code ? <Route path="/" element={<Dashboard code={code}/>} /> : <Route path="/" element={<Home />} />}
+            { code ? <Route path="/" element={<Dashboard />} /> : <Route path="/" element={<Home />} />}
             
             <Route path="/exercises" element={<ExerciseList />} />
             <Route path="/lessonPlans" element={<LessonPlan />} />
+            <Route path="/classes/:id" element={<ClassExercises code={code}/>} />
             
             {/* <ProtectedRoute 
               exact 

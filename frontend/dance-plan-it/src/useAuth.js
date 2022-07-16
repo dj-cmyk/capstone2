@@ -12,7 +12,7 @@ const useAuth = (code) => {
         axios.post("http://localhost:3001/login", {
             code,
         }).then(res => {
-            console.log(res.data)
+            
             setAccessToken(res.data.accessToken)
             setRefreshToken(res.data.refreshToken)
             setExpiresIn(res.data.expiresIn)
@@ -29,11 +29,8 @@ const useAuth = (code) => {
             axios.post("http://localhost:3001/refresh", {
                 refreshToken,
             }).then(res => {
-                // console.log(res.data)
                 setAccessToken(res.data.accessToken)
-                // setRefreshToken(res.data.refreshToken)
                 setExpiresIn(res.data.expiresIn)
-                // window.history.pushState({}, null, "/")
             }).catch((e) => {
                 console.log(e)
             })

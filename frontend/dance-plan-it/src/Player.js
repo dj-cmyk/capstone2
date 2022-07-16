@@ -4,7 +4,7 @@ import { Container } from 'reactstrap';
 import './Player.css';
 
 
-const Player = ({accessToken}) => {
+const Player = ({accessToken, uri}) => {
 
     if (!accessToken) return null;
     
@@ -12,7 +12,7 @@ const Player = ({accessToken}) => {
         <Container className="Player-container">
             <SpotifyPlayer
                 token={accessToken}
-                uris={'spotify:track:74jQK0XwwtUvM5OisddMzi'}
+                uris={uri}
             />
         </Container>
     )

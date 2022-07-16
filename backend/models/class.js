@@ -2,7 +2,7 @@
 
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+// const { sqlForPartialUpdate } = require("../helpers/sql");
 
 
 
@@ -10,12 +10,12 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 
 class ClassExercise {
     /** Create a class exercise framework, update db, return new class_exercise data.
-     * data should be { lessonPlanId, exerciseID, notes }
+     * data should be { lessonPlanId, exerciseID, hasProp, propDescription, notes, spotifyURI }
      *
-     * Returns { lessonPlanID, exerciseID, notes }
+     * Returns { lessonPlanId, exerciseID, hasProp, propDescription, notes, spotifyURI }
      * */
   
-    static async create({ lessonPlanID, exerciseID, notes }) {
+    static async create({ lessonPlanID, exerciseID, hasProp, propDescription, notes, spotifyURI }) {
       const duplicateCheck = await db.query(
             `SELECT "lessonPlanID", "exerciseID"
              FROM class_exercises
@@ -28,13 +28,16 @@ class ClassExercise {
   
       const result = await db.query(
             `INSERT INTO class_exercises
-             ("lessonPlanID", "exerciseID", "notes")
-             VALUES ($1, $2, $3)
-             RETURNING "lessonPlanID", "exerciseID", notes`,
+             ("lessonPlanID", "exerciseID", "hasProp", "propDescription", "notes", "spotifyURI")
+             VALUES ($1, $2, $3, $4, $5, $6)
+             RETURNING "lessonPlanID", "exerciseID", "hasProp", "propDescription", notes, "spotifyURI"`,
           [
             lessonPlanID,
             exerciseID,
+            hasProp,
+            propDescription,
             notes,
+            spotifyURI
           ],
       );
       const class_exercise = result.rows[0];
@@ -55,30 +58,31 @@ class ClassExercise {
    **/
 
   static async get(id) {
-    const classExerciseRes = await db.query(
+    const classExercisesRes = await db.query(
           `SELECT 
-                lp.order, 
-                lp.theme, 
-                lp.focus, 
-                levels.name, 
-                exercises.description, 
-                exercises."hasProp", 
-                exercises."propDescription", 
-                ec.name,
-                ce.notes
-            FROM class_exercises AS ce
+              lp.order, 
+              lp.theme, 
+              lp.focus, 
+              levels.name, 
+              e.description, 
+              c."hasProp", 
+              c."propDescription", 
+              c.notes,
+              c."spotifyURI",
+              ec.name
+            FROM classes AS c
             JOIN lesson_plans AS lp
-                ON ce."lessonPlanID" = lp."lessonPlanID"
-            JOIN exercises
-                ON ce."exerciseID" = exercises."exerciseID"
+                ON c."lessonPlanID" = lp."lessonPlanID"
+            JOIN exercises AS e
+                ON c."exerciseID" = e."exerciseID"
             JOIN levels
                 ON lp."levelID" = levels."levelID"
             JOIN exercise_categories AS ec
-                ON exercises."exerciseCategoryID" = ec."exerciseCategoryID"
-            WHERE ce."lessonPlanID" = $1`,
+                ON e."exerciseCategoryID" = ec."exerciseCategoryID"
+            WHERE c."lessonPlanID" = $1`,
         [id]);
 
-    const classExercises = classExerciseRes.rows;
+    const classExercises = classExercisesRes.rows;
 
     if (!classExercises) throw new NotFoundError(`No class exercises for lesson plan: ${id}`);
 

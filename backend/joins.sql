@@ -3,20 +3,22 @@ SELECT
     lp.theme, 
     lp.focus, 
     levels.name, 
-    exercises.description, 
-    exercises."hasProp", 
-    exercises."propDescription", 
+    e.description, 
+    c."hasProp", 
+    c."propDescription", 
+    c.notes,
+    c."spotifyURI",
     ec.name
-    ce.notes
-FROM class_exercises AS ce
+FROM classes AS c
 JOIN lesson_plans AS lp
-    ON ce."lessonPlanID" = lp."lessonPlanID"
-JOIN exercises
-    ON ce."exerciseID" = exercises."exerciseID"
+    ON c."lessonPlanID" = lp."lessonPlanID"
+JOIN exercises AS e
+    ON c."exerciseID" = e."exerciseID"
 JOIN levels
     ON lp."levelID" = levels."levelID"
 JOIN exercise_categories AS ec
-    ON exercises."exerciseCategoryID" = ec."exerciseCategoryID"
+    ON e."exerciseCategoryID" = ec."exerciseCategoryID"
+WHERE c."lessonPlanID" = 2;
 
 
 

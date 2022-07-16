@@ -1,20 +1,3 @@
-
-
--- CREATE TABLE "teachers" (
---     "teacherID" int   NOT NULL,
---     "username" string   NOT NULL,
---     "first_name" string   NOT NULL,
---     "last_name" string   NOT NULL,
---     "email" string   NOT NULL,
---     "password" string   NOT NULL,
---     CONSTRAINT "pk_teachers" PRIMARY KEY (
---         "teacherID"
---      ),
---     CONSTRAINT "uc_teachers_username" UNIQUE (
---         "username"
---     )
--- );
-
 CREATE TABLE "exercise_categories" (
     "exerciseCategoryID" SERIAL PRIMARY KEY,
     "name" text NOT NULL
@@ -32,21 +15,20 @@ CREATE TABLE "levels" (
 );
 
 CREATE TABLE "exercises" (
-    "exerciseID" SERIAL NOT NULL,
+    "exerciseID" SERIAL PRIMARY KEY,
     "levelCategoryID" int   NOT NULL,
     "exerciseCategoryID" int   NOT NULL,
-    "description" text   NOT NULL,
-    "hasProp" boolean   NOT NULL,
-    "propDescription" text,
-    CONSTRAINT "pk_exercises" PRIMARY KEY (
-        "exerciseID"
-     )
+    "description" text   NOT NULL
 );
 
-CREATE TABLE "class_exercises" (
+CREATE TABLE "classes" (
     "lessonPlanID" int   NOT NULL,
     "exerciseID" int   NOT NULL, 
-    "notes" text
+    "hasProp" boolean   NOT NULL,
+    "propDescription" text,
+    "notes" text, 
+    "spotifyURI" text NOT NULL,
+    PRIMARY KEY ("lessonPlanID", "exerciseID")
 );
 
 CREATE TABLE "lesson_plans" (
@@ -60,17 +42,6 @@ CREATE TABLE "lesson_plans" (
      )
 );
 
--- this must populate from API so maybe it should just be a link?
--- CREATE TABLE "songs" (
---     "songID" int   NOT NULL,
---     "name" string   NOT NULL,
---     "artist" string   NOT NULL,
---     "album" string   NOT NULL,
---     CONSTRAINT "pk_songs" PRIMARY KEY (
---         "songID"
---      )
--- );
-
 ALTER TABLE "levels" ADD CONSTRAINT "fk_levels_levelCategoryId" FOREIGN KEY("levelCategoryId")
 REFERENCES "level_categories" ("levelCategoryID");
 
@@ -80,14 +51,11 @@ REFERENCES "level_categories" ("levelCategoryID");
 ALTER TABLE "exercises" ADD CONSTRAINT "fk_exercises_exerciseCategoryID" FOREIGN KEY("exerciseCategoryID")
 REFERENCES "exercise_categories" ("exerciseCategoryID");
 
-ALTER TABLE "class_exercises" ADD CONSTRAINT "fk_class_exercises_lessonPlanID" FOREIGN KEY("lessonPlanID")
+ALTER TABLE "classes" ADD CONSTRAINT "fk_class_exercises_lessonPlanID" FOREIGN KEY("lessonPlanID")
 REFERENCES "lesson_plans" ("lessonPlanID");
 
-ALTER TABLE "class_exercises" ADD CONSTRAINT "fk_class_exercises_exerciseID" FOREIGN KEY("exerciseID")
+ALTER TABLE "classes" ADD CONSTRAINT "fk_class_exercises_exerciseID" FOREIGN KEY("exerciseID")
 REFERENCES "exercises" ("exerciseID");
-
--- ALTER TABLE "class_exercises" ADD CONSTRAINT "fk_class_exercises_songID" FOREIGN KEY("songID")
--- REFERENCES "songs" ("songID");
 
 ALTER TABLE "lesson_plans" ADD CONSTRAINT "fk_lesson_plans_levelID" FOREIGN KEY("levelID")
 REFERENCES "levels" ("levelID");

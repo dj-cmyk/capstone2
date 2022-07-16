@@ -22,10 +22,10 @@ function NavBar() {
               <NavItem>
                 <NavLink to="/lessonPlans" className="btn outline-secondary btn-sm">Lesson Plan Overviews</NavLink>
               </NavItem>
-              {/* <NavItem>
-                <NavLink to="/profile" className="btn outline-secondary btn-sm">Profile</NavLink>
-              </NavItem>
               <NavItem>
+                <NavLink to="/classes/2" className="btn outline-secondary btn-sm">ClassExercises</NavLink>
+              </NavItem>
+              {/* <NavItem>
                 <NavLink to="/" onClick={logout} className="btn outline-secondary btn-sm">Logout {user.firstName}</NavLink>
               </NavItem> */}
             </Nav>
