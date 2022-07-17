@@ -91,6 +91,14 @@ class LessonPlan {
       }
 
 
+      static async getLevels() {
+        let query = `SELECT l."levelID",
+                            l."name"
+                     FROM levels AS l`;
+        
+        const levelsRes = await db.query(query);
+        return levelsRes.rows;
+      }
 
 
      /************ Given an lesson plan id, return data about lesson plan.

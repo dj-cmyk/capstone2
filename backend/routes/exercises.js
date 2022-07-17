@@ -31,9 +31,10 @@ router.post("/", async function (req, res, next) {
     //   const errs = validator.errors.map(e => e.stack);
     //   throw new BadRequestError(errs);
     // }
-
-    const exercise = await Exercise.create(req.body);
-    return res.status(201).json({ exercise });
+    console.log(req.body)
+      const exercise = await Exercise.create(req.body);
+      
+      return res.status(201).json({ exercise });
   } catch (err) {
     return next(err);
   }
@@ -70,8 +71,25 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get("/categories", async function (req, res, next) {
+    try {
+      const exerciseCategories = await Exercise.getCategories();
+      
+      return res.json({ exerciseCategories });
+    } catch (err) {
+      return next(err);
+    }
+  });
 
-
+  router.get("/levelCategories", async function (req, res, next) {
+    try {
+      const levelCategories = await Exercise.getLevelCategories();
+      
+      return res.json({ levelCategories });
+    } catch (err) {
+      return next(err);
+    }
+  });
 
 /*********** GET /[id]  =>  { exercise }
  *

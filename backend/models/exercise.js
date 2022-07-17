@@ -93,8 +93,23 @@ class Exercise {
         return exercisesRes.rows;
       }
 
+      static async getCategories() {
+        let query = `SELECT ec."exerciseCategoryID",
+                            ec."name"
+                     FROM exercise_categories AS ec`;
+        
+        const categoriesRes = await db.query(query);
+        return categoriesRes.rows;
+      }
 
-
+      static async getLevelCategories() {
+        let query = `SELECT lc."levelCategoryID",
+                            lc."name"
+                     FROM level_categories AS lc`;
+        
+        const categoriesRes = await db.query(query);
+        return categoriesRes.rows;
+      }
 
      /************ Given an exercise id, return data about exercise.
    *

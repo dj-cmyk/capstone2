@@ -72,7 +72,14 @@ router.get("/", async function (req, res, next) {
 });
 
 
-
+router.get("/levels", async function (req, res, next) {
+  try {
+    const levels = await LessonPlan.getLevels();
+    return res.json({ levels });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 /*********** GET /[id]  =>  { lessonPlan }
  *
