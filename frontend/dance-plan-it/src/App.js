@@ -9,6 +9,7 @@ import Dashboard from './Dashboard';
 import ClassExercises from './ClassExercises';
 import ExerciseForm from './ExerciseForm';
 import LessonPlanForm from './LessonPlanForm';
+import LessonPlansByLevel from './LessonPlansByLevel';
 import axios from 'axios';
 
 
@@ -40,26 +41,8 @@ function App() {
             <Route path="/exercises/new" element={<ExerciseForm addNewExercise={addNewExercise}/>} />
             <Route path="/lessonPlans" element={<LessonPlan />} />
             <Route path="/lessonPlans/new" element={<LessonPlanForm addNewLessonPlan={addNewLessonPlan}/>} />
+            <Route path="/lessonPlans/levels/:levelID" element={<LessonPlansByLevel  />} />
             <Route path="/classes/:id" element={<ClassExercises code={code}/>} />
-            
-            {/* <ProtectedRoute 
-              exact 
-              path="/companies/:handle" 
-              render={({ match }) => <CompanyDetail handle={match.params.handle} />}
-            /> */}
-
-            {/* <ProtectedRoute exact path="/jobs">
-              <JobList />
-            </ProtectedRoute> */}
-            {/* <Route exact path="/login">
-              <LoginForm login={login}/>
-            </Route> */}
-            {/* <Route exact path="/signup">
-              <SignUpForm signup={signup} />
-            </Route> */}
-            {/* <ProtectedRoute exact path="/profile">
-              <Profile update={update}/>
-            </ProtectedRoute> */}
             
           </Routes>
         </main>

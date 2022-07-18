@@ -27,6 +27,7 @@ CREATE TABLE "classes" (
     "hasProp" boolean   NOT NULL,
     "propDescription" text,
     "notes" text, 
+    "sequence" int NOT NULL,
     "spotifyURI" text NOT NULL,
     PRIMARY KEY ("lessonPlanID", "exerciseID")
 );

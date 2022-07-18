@@ -56,6 +56,22 @@ const LessonPlanForm = ({addNewLessonPlan}) => {
   return (
     <Form onSubmit={handleSubmit} className="Form">
       <FormGroup>
+        <Label htmlFor="levelID">Level: </Label>
+        <Input
+          id="levelID"
+          type="select"
+          name="levelID"
+          value={formData.levelID}
+          onChange={handleChange}
+          className=""
+          >
+          <option>Select a Level</option>
+          {levels.map(l => 
+              (<option key={l.levelID} value={l.levelID}>{l.name}</option>)
+          )}
+        </Input>
+      </FormGroup>
+      <FormGroup>
       <Label htmlFor="order">Order: </Label>
       <Input
         id="order"
@@ -88,22 +104,7 @@ const LessonPlanForm = ({addNewLessonPlan}) => {
         className=""
       />
       </FormGroup>
-      <FormGroup>
-      <Label htmlFor="levelID">Level: </Label>
-      <Input
-        id="levelID"
-        type="select"
-        name="levelID"
-        value={formData.levelID}
-        onChange={handleChange}
-        className=""
-        >
-        <option>Select a Level</option>
-        {levels.map(l => 
-            (<option key={l.levelID} value={l.levelID}>{l.name}</option>)
-        )}
-    </Input>
-      </FormGroup>
+     
       <Button>Add Lesson Plan Overview</Button>
     </Form>
   )

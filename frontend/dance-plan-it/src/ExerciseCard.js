@@ -18,6 +18,8 @@ function ExerciseCard({ exercise }) {
                   <b>Prop Description:</b> {exercise.propDescription}
                 </p> 
                 : ""}
+            <button className="btn btn-outline-primary nav-buttons">Update</button>
+            <button className="btn btn-outline-danger nav-buttons">Delete</button>
         </CardBody>
       </Card>
     </section>

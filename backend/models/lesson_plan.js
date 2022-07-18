@@ -128,6 +128,28 @@ class LessonPlan {
   }
 
 
+
+  //get all lesson plans filtered by levelID
+  static async findAllByLevel(levelID) {
+    const lessonPlanByLevelRes = await db.query(
+      `SELECT 
+            "lessonPlanID", 
+            "order", 
+            theme, 
+            focus, 
+            "levelID"
+       FROM lesson_plans
+       WHERE "levelID" = $1
+       ORDER BY "order"`,
+    [levelID]);
+
+    const lessonPlansByLevel = lessonPlanByLevelRes.rows;
+
+    if (!lessonPlansByLevel) throw new NotFoundError(`No lesson Plan for level: ${LevelID}`);
+
+    return lessonPlansByLevel;
+  }
+
   /*********** Update lesson plan data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain all the

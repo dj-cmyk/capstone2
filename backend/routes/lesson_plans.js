@@ -98,6 +98,17 @@ router.get("/:id", async function (req, res, next) {
 });
 
 
+// GET all lesson plans for a specific levelID
+router.get("/levels/:levelID", async function (req, res, next) {
+  try {
+    const lessonPlans = await LessonPlan.findAllByLevel(req.params.levelID);
+    
+    return res.json({ lessonPlans });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 
 
 /** PATCH /[id] { fld1, fld2, ... } => { exercise }

@@ -70,20 +70,20 @@ INSERT INTO lesson_plans ("order", "theme", "focus", "levelID")
         (11, 'fairies', 'quiet feet', 5), 
         (12, 'dolls', 'posture', 5);
 
-INSERT INTO classes ("lessonPlanID", "exerciseID", "hasProp", "propDescription", "notes", "spotifyURI")
+INSERT INTO classes ("lessonPlanID", "exerciseID", "hasProp", "propDescription", "notes", "sequence", "spotifyURI")
     VALUES 
-        (2, 15, false, NULL, 'set up theme for class', 'spotify:track:5pdANxh2HUH62WJu0HdRQO'),
-        (2, 16, false, NULL, NULL, 'spotify:track:0HHuHOteyhbpzYWd6qLiiG'),
-        (2, 17, false, NULL, NULL, 'spotify:track:2JLRFaBineYJfJA99pHqTY'),
-        (2, 18, false, NULL, NULL, 'spotify:track:0oNNYsDhZIMdDNrJ9U61Fa'),
-        (2, 19, false, NULL, NULL, 'spotify:track:0AmjzJ1wibXqtaNEKllsnQ'), 
-        (2, 20, true, 'blue scarves', 'making waves like the ocean', 'spotify:track:0ZEpU0i4RcfGtziGtvFtyY'), 
-        (2, 21, false, NULL, NULL, 'spotify:track:4XRstKYdUrHkPphbxd3GgW'),
-        (2, 8, false, NULL, 'Imagine you are like a diver at the olympics trying to make the least amount of splash possible when your leg comes back down to the ground', 'spotify:track:5Zb6jmI3Sn52n2McYbVEpa'),
-        (2, 22, false, NULL, NULL, 'spotify:track:1dr0QB4UavTSEL2ZQuVwbz'),
-        (2, 23, false, NULL, NULL, 'spotify:track:6WcC7iZGFWOoOqbBP5LSV2'),
-        (2, 24, false, NULL, NULL, 'spotify:track:1nao9jiaHP9Tj4FjM1mCmJ'), 
-        (2, 25, false, NULL, NULL, 'spotify:track:7cw5NZccxPNIPtLJltIuqe'), 
-        (2, 26, true, 'floor spots for 4 corners, shark stuffed animal', 'can put shark stuffed animal in the middle and leap over it if needed for extra time/activity', 'spotify:track:0VSBe9nctIb2f8b9GgXw0U'), 
-        (2, 27, true, 'floor spots', 'can freeze in a different ballet position on each specific floor spot', 'spotify:track:6uMeSD4ZXjnmuNNRORsZK8'), 
-        (2, 28, true, 'under sea carpet', NULL, 'spotify:track:1S455AnbIKbfsPSIPiWAci');
+        (2, 15, false, NULL, 'set up theme for class', 1, 'spotify:track:5pdANxh2HUH62WJu0HdRQO'),
+        (2, 16, false, NULL, NULL, 2, 'spotify:track:0HHuHOteyhbpzYWd6qLiiG'),
+        (2, 17, false, NULL, NULL, 3, 'spotify:track:2JLRFaBineYJfJA99pHqTY'),
+        (2, 18, false, NULL, NULL, 4, 'spotify:track:0oNNYsDhZIMdDNrJ9U61Fa'),
+        (2, 19, false, NULL, NULL, 5, 'spotify:track:0AmjzJ1wibXqtaNEKllsnQ'), 
+        (2, 20, true, 'blue scarves', 'making waves like the ocean', 6, 'spotify:track:0ZEpU0i4RcfGtziGtvFtyY'), 
+        (2, 21, false, NULL, NULL, 7, 'spotify:track:4XRstKYdUrHkPphbxd3GgW'),
+        (2, 8, false, NULL, 'Imagine you are like a diver at the olympics trying to make the least amount of splash possible when your leg comes back down to the ground', 8, 'spotify:track:5Zb6jmI3Sn52n2McYbVEpa'),
+        (2, 22, false, NULL, NULL, 9, 'spotify:track:1dr0QB4UavTSEL2ZQuVwbz'),
+        (2, 23, false, NULL, NULL, 10, 'spotify:track:6WcC7iZGFWOoOqbBP5LSV2'),
+        (2, 24, false, NULL, NULL, 11, 'spotify:track:1nao9jiaHP9Tj4FjM1mCmJ'), 
+        (2, 25, false, NULL, NULL, 12, 'spotify:track:7cw5NZccxPNIPtLJltIuqe'), 
+        (2, 26, true, 'floor spots for 4 corners, shark stuffed animal', 'can put shark stuffed animal in the middle and leap over it if needed for extra time/activity', 13, 'spotify:track:0VSBe9nctIb2f8b9GgXw0U'), 
+        (2, 27, true, 'floor spots', 'can freeze in a different ballet position on each specific floor spot', 14, 'spotify:track:6uMeSD4ZXjnmuNNRORsZK8'), 
+        (2, 28, true, 'under sea carpet', NULL, 15, 'spotify:track:1S455AnbIKbfsPSIPiWAci');

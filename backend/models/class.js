@@ -15,7 +15,7 @@ class ClassExercise {
      * Returns { lessonPlanId, exerciseID, hasProp, propDescription, notes, spotifyURI }
      * */
   
-    static async create({ lessonPlanID, exerciseID, hasProp, propDescription, notes, spotifyURI }) {
+    static async create({ lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }) {
       const duplicateCheck = await db.query(
             `SELECT "lessonPlanID", "exerciseID"
              FROM class_exercises
@@ -27,16 +27,17 @@ class ClassExercise {
         throw new BadRequestError(`Duplicate class with lesson plan: ${lessonPlanID} and exercise: ${exerciseID}`);
   
       const result = await db.query(
-            `INSERT INTO class_exercises
-             ("lessonPlanID", "exerciseID", "hasProp", "propDescription", "notes", "spotifyURI")
-             VALUES ($1, $2, $3, $4, $5, $6)
-             RETURNING "lessonPlanID", "exerciseID", "hasProp", "propDescription", notes, "spotifyURI"`,
+            `INSERT INTO classes
+             ("lessonPlanID", "exerciseID", "hasProp", "propDescription", "notes", "sequence", "spotifyURI")
+             VALUES ($1, $2, $3, $4, $5, $6, $7)
+             RETURNING "lessonPlanID", "exerciseID", "hasProp", "propDescription", notes, sequence, "spotifyURI"`,
           [
             lessonPlanID,
             exerciseID,
             hasProp,
             propDescription,
             notes,
+            sequence, 
             spotifyURI
           ],
       );
@@ -68,6 +69,7 @@ class ClassExercise {
               c."hasProp", 
               c."propDescription", 
               c.notes,
+              c.sequence,
               c."spotifyURI",
               ec.name
             FROM classes AS c
@@ -79,7 +81,8 @@ class ClassExercise {
                 ON lp."levelID" = levels."levelID"
             JOIN exercise_categories AS ec
                 ON e."exerciseCategoryID" = ec."exerciseCategoryID"
-            WHERE c."lessonPlanID" = $1`,
+            WHERE c."lessonPlanID" = $1
+            ORDER BY c.sequence`,
         [id]);
 
     const classExercises = classExercisesRes.rows;

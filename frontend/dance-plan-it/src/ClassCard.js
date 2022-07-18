@@ -6,7 +6,7 @@ import "./ExerciseCard.css";
 
 function ClassCard({ classExercise, code }) {
     const accessToken = useAuth(code)
-    console.log(accessToken)
+    // console.log(accessToken)
   return (
     
       <Card className="Card">
