@@ -128,8 +128,9 @@ router.patch("/:id", async function (req, res, next) {
     //   const errs = validator.errors.map(e => e.stack);
     //   throw new BadRequestError(errs);
     // }
-
-    const exercise = await Exercise.update(req.params.id, req.body);
+    
+    const exercise = await Exercise.update(req.params.id, req.body.description);
+    
     return res.json({ exercise });
   } catch (err) {
     return next(err);

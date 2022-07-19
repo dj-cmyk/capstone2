@@ -149,21 +149,16 @@ class Exercise {
    */
 
    static async update(id, data) {
-    const { setCols, values } = sqlForPartialUpdate(
-        data,
-        {
-          description: "description"
-        });
-    const handleVarIdx = "$" + (values.length + 1);
 
-    const querySql = `UPDATE exercises 
-                      SET ${setCols} 
-                      WHERE "exerciseID" = ${handleVarIdx} 
+    const updateRes = await db.query(
+                      `UPDATE exercises 
+                      SET description = $1
+                      WHERE "exerciseID" = $2
                       RETURNING "levelCategoryID", 
                                 "exerciseCategoryID", 
-                                description`;
-    const result = await db.query(querySql, [...values, id]);
-    const exercise = result.rows[0];
+                                description`, [data, id]);
+    
+    const exercise = updateRes.rows[0];
 
     if (!exercise) throw new NotFoundError(`No exercise: ${id}`);
 

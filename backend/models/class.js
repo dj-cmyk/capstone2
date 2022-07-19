@@ -18,7 +18,7 @@ class ClassExercise {
     static async create({ lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }) {
       const duplicateCheck = await db.query(
             `SELECT "lessonPlanID", "exerciseID"
-             FROM class_exercises
+             FROM classes
              WHERE "lessonPlanID" = $1 
              AND "exerciseID" = $2`,
           [lessonPlanID, exerciseID]);

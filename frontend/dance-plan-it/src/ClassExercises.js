@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
-import {useParams} from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ClassCard from "./ClassCard";
 import "./ExerciseCard.css";
 
@@ -18,9 +18,10 @@ function ClassExercises({code}) {
                     return res.json()
                 }
             }).then(jsonRes => setClassExercises(jsonRes.classExercises))
-    }, []);
+    }, [id]);
 
     if (!classExercises) return <p>Loading &hellip;</p>;
+    
 
     return (
         <section className="Section">
@@ -41,7 +42,11 @@ function ClassExercises({code}) {
         
             <div>
                 {sequence !== 0 ? <button className="btn btn-outline-secondary btn-lg nav-buttons" onClick={() => setSequence(sequence - 1)}> Previous </button> : ""}
-                {sequence !== (classExercises.length - 1) ?  <button className="btn btn-outline-success btn-lg nav-buttons" onClick={() => setSequence(sequence + 1)}> Next </button> : ""}
+                {sequence !== (classExercises.length - 1) ? 
+                    <button className="btn btn-outline-success btn-lg nav-buttons" 
+                        onClick={() => setSequence(sequence + 1)}> 
+                        Next </button> : 
+                        <Link to={`/lessonPlans/levels/${5}`} className="btn btn-outline-secondary btn-lg nav-buttons">Lesson Plans For {"Ballet 2"}</Link>}
                
             </div>
         </section>

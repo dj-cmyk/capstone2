@@ -26,7 +26,7 @@ const Dashboard = () => {
             {levels ? 
                 (<ListGroup>
                     {levels.map(l => 
-                        (<Link to={`/lessonPlans/levels/${l.levelID}`} key={l.levelID} value={l.levelID} className="btn btn-outline-secondary Dashboard-btn">Class Plans For {l.name}</Link>)
+                        (<Link to={`/lessonPlans/levels/${l.levelID}`} key={l.levelID} value={l.levelID} className="btn btn-outline-secondary Dashboard-btn">Lesson Plans For {l.name}</Link>)
                     )}
                 </ListGroup>) 
             : ""}

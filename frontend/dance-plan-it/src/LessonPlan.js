@@ -22,7 +22,7 @@ const LessonPlan = ({lessonPlan, level}) => {
               {lessonPlan.focus ? <p className="Card-SubText">
                   <b>Focus:</b> {lessonPlan.focus} </p> : ""} 
             </CardText>
-            <Link to={`/classes/${lessonPlan.lessonPlanID}`} className="btn btn-outline-success nav-buttons">View</Link>
+            <Link to={`/classes/${lessonPlan.lessonPlanID}`} className="btn btn-outline-success nav-buttons">Start</Link>
             <Link to={`/classes/update/${lessonPlan.lessonPlanID}`} className="btn btn-outline-primary nav-buttons">Update</Link>
             <Link to={`/classes/delete/${lessonPlan.lessonPlanID}`} className="btn btn-outline-danger nav-buttons">Delete</Link>
             

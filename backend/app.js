@@ -46,8 +46,12 @@ app.post('/login', (req, res) => {
                 refreshToken: data.body.refresh_token,
                 expiresIn: data.body.expires_in
             })
-        }).catch(() => {
-            // console.log("here is a problem")
+            console.log(data.body)
+            spotifyApi.setAccessToken(data.body.access_token);
+            spotifyApi.setRefreshToken(data.body.refresh_token);
+        })
+        .catch((e) => {
+            console.log("here is a problem", e)
             res.sendStatus(400)
         })      
 })

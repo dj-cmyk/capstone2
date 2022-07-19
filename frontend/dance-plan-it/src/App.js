@@ -11,6 +11,8 @@ import ExerciseForm from './ExerciseForm';
 import LessonPlanForm from './LessonPlanForm';
 import LessonPlansByLevel from './LessonPlansByLevel';
 import axios from 'axios';
+import ClassExerciseForm from './ClassExerciseForm';
+import ExerciseUpdateForm from './ExerciseUpdateForm';
 
 
 
@@ -24,8 +26,14 @@ function App() {
     return res
   }
 
+
   const addNewLessonPlan = async (lessonPlanFormData) => {
     let res = await axios.post(`${BASE_URL}/lessonPlans/`, ({...lessonPlanFormData}))
+    return res
+  }
+
+  const addNewClassExercise = async (classExerciseFormData) => {
+    let res = await axios.post(`${BASE_URL}/classes/`, ({...classExerciseFormData}))
     return res
   }
 
@@ -39,10 +47,12 @@ function App() {
             
             <Route path="/exercises" element={<ExerciseList />} />
             <Route path="/exercises/new" element={<ExerciseForm addNewExercise={addNewExercise}/>} />
+            <Route path="/exercises/update/:id" element={<ExerciseUpdateForm />} />
             <Route path="/lessonPlans" element={<LessonPlan />} />
             <Route path="/lessonPlans/new" element={<LessonPlanForm addNewLessonPlan={addNewLessonPlan}/>} />
             <Route path="/lessonPlans/levels/:levelID" element={<LessonPlansByLevel  />} />
             <Route path="/classes/:id" element={<ClassExercises code={code}/>} />
+            <Route path="/classes/new" element={<ClassExerciseForm addNewClassExercise={addNewClassExercise} />} />
             
           </Routes>
         </main>

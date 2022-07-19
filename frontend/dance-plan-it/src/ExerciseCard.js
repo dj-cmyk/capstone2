@@ -1,8 +1,16 @@
+import axios from "axios";
 import React from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import "./ExerciseCard.css";
 
 function ExerciseCard({ exercise }) {
+
+  const deleteExercise = async (id) => {
+      let res = await axios.delete(`http://localhost:3001/exercises/${id}`)
+      return res
+  }
+
+
   return (
     <section className="Section">
       <Card className="Card">
@@ -18,8 +26,8 @@ function ExerciseCard({ exercise }) {
                   <b>Prop Description:</b> {exercise.propDescription}
                 </p> 
                 : ""}
-            <button className="btn btn-outline-primary nav-buttons">Update</button>
-            <button className="btn btn-outline-danger nav-buttons">Delete</button>
+            <a href={`/exercises/update/${exercise.exerciseID}`} className="btn btn-outline-primary nav-buttons">Update</a>
+            <button className="btn btn-outline-danger nav-buttons" onClick={() => deleteExercise(exercise.exerciseID)}> Delete </button>
         </CardBody>
       </Card>
     </section>

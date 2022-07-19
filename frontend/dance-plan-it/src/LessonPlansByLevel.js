@@ -24,7 +24,6 @@ const LessonPlansByLevel = () => {
             let currentLevel = levelsRes.data.levels.filter(level => {
                 return level.levelID === levelID})
             setCurrLevel(currentLevel)
-            console.log(currentLevel)
           }
           
         // call the function
