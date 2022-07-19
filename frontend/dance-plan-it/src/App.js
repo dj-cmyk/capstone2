@@ -13,6 +13,7 @@ import LessonPlansByLevel from './LessonPlansByLevel';
 import axios from 'axios';
 import ClassExerciseForm from './ClassExerciseForm';
 import ExerciseUpdateForm from './ExerciseUpdateForm';
+import LessonPlanUpdateForm from './LessonPlanUpdateForm';
 
 
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/exercises/update/:id" element={<ExerciseUpdateForm />} />
             <Route path="/lessonPlans" element={<LessonPlan />} />
             <Route path="/lessonPlans/new" element={<LessonPlanForm addNewLessonPlan={addNewLessonPlan}/>} />
+            <Route path="/lessonPlans/update/:id" element={<LessonPlanUpdateForm />} />
             <Route path="/lessonPlans/levels/:levelID" element={<LessonPlansByLevel  />} />
             <Route path="/classes/:id" element={<ClassExercises code={code}/>} />
             <Route path="/classes/new" element={<ClassExerciseForm addNewClassExercise={addNewClassExercise} />} />

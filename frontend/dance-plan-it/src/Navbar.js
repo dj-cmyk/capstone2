@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
-// import UserContext from './UserContext';
 import "./Navbar.css";
 
 function NavBar() {
@@ -15,9 +14,9 @@ function NavBar() {
               <NavItem>
                 <NavLink to="/exercises" className="btn outline-secondary btn-sm">All Exercises</NavLink>
               </NavItem>
-              {/* <NavItem>
-                <NavLink to="/classes/2" className="btn outline-secondary btn-sm">ClassExercises</NavLink>
-              </NavItem> */}
+              <NavItem>
+                <NavLink to="/lessonPlans" className="btn outline-secondary btn-sm">All Lesson Plans</NavLink>
+              </NavItem>
             </Nav>
           </Navbar>
         )

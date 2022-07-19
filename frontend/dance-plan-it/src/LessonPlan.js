@@ -1,13 +1,17 @@
 import React from 'react';
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 import "./ExerciseCard.css";
 
 
 
-const LessonPlan = ({lessonPlan, level}) => {
+function LessonPlan({ lessonPlan, level }) {
 
-  
+  const deleteLessonPlan = async (id) => {
+    let res = await axios.delete(`http://localhost:3001/lessonPlans/${id}`)
+    return res
+}
 
   return (
     <section className="Section">
@@ -22,9 +26,17 @@ const LessonPlan = ({lessonPlan, level}) => {
               {lessonPlan.focus ? <p className="Card-SubText">
                   <b>Focus:</b> {lessonPlan.focus} </p> : ""} 
             </CardText>
-            <Link to={`/classes/${lessonPlan.lessonPlanID}`} className="btn btn-outline-success nav-buttons">Start</Link>
-            <Link to={`/classes/update/${lessonPlan.lessonPlanID}`} className="btn btn-outline-primary nav-buttons">Update</Link>
-            <Link to={`/classes/delete/${lessonPlan.lessonPlanID}`} className="btn btn-outline-danger nav-buttons">Delete</Link>
+            <Link 
+              to={`/classes/${lessonPlan.lessonPlanID}`} 
+              className="btn btn-outline-success nav-buttons">
+                Start
+            </Link>
+            <Link 
+              to={`/lessonPlans/update/${lessonPlan.lessonPlanID}`} 
+              className="btn btn-outline-primary nav-buttons">
+                Update
+            </Link>
+            <button className="btn btn-outline-danger nav-buttons" onClick={() => deleteLessonPlan(lessonPlan.lessonPlanID)}> Delete </button>
             
         </CardBody>
       </Card>

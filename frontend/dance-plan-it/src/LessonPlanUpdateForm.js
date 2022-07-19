@@ -5,24 +5,25 @@ import axios from "axios";
 import "./Form.css";
 
 
-const ExerciseUpdateForm = () => {
+const LessonPlanUpdateForm = () => {
     let params = useParams();
     let id = params.id;
 
 
   const [initialState, setInitialState] = useState({
-    levelCategoryID: '',
-    exerciseCategoryID: '',
-    description: ''
+    order: '',
+    theme: '',
+    focus: '',
+    levelID: 5
   })
   
 
   useEffect(() => {
-    fetch(`/exercises/${id}`).then(res => {
+    fetch(`/lessonPlans/${id}`).then(res => {
         if(res.ok) {
             return res.json()
         }
-    }).then(jsonRes => setInitialState(jsonRes.exercise))
+    }).then(jsonRes => setInitialState(jsonRes.lessonPlan))
     
     }, [id])
 
@@ -30,11 +31,11 @@ const ExerciseUpdateForm = () => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate()
 
-  const updateExercise = async (id, data) => {
-        let dataToSend = {
-            description: data.description
-        }
-        let res = await axios.patch(`http://localhost:3001/exercises/${id}`, dataToSend)
+  const updateLessonPlan = async (id, data) => {
+        // let dataToSend = {
+        //     description: data.description
+        // }
+        let res = await axios.patch(`http://localhost:3001/lessonPlans/${id}`, data)
         return res
   }
 
@@ -52,10 +53,10 @@ const ExerciseUpdateForm = () => {
     e.preventDefault();
 
     // call API to add new exercise to DB
-    updateExercise(id, {...formData} )
+    updateLessonPlan(id, {...formData} )
     
     // redirect to exercise page to see newly added exercise
-    navigate("/exercises", { replace: true });
+    navigate("/lessonPlans", { replace: true });
     
     // reset the form to blank
     setFormData(initialState)
@@ -65,25 +66,46 @@ const ExerciseUpdateForm = () => {
     <Form onSubmit={handleSubmit} className="Form">
       
       <FormGroup>
-      <Label htmlFor="exerciseCategoryID">Exercise Category: {initialState.exerciseCategoryID}</Label>
+      <Label htmlFor="order">Order: </Label>
+      <Input
+        id="order"
+        type="number"
+        name="order"
+        placeholder={initialState.order}
+        value={formData.order}
+        onChange={handleChange}
+        className=""
+      />
       </FormGroup>
       <FormGroup>
-      <Label htmlFor="description">Description: </Label>
+      <Label htmlFor="theme">Theme: </Label>
       <Input
-        id="description"
+        id="theme"
         type="text"
-        name="description"
-        placeholder={initialState.description}
-        value={formData.description}
+        name="theme"
+        placeholder={initialState.theme}
+        value={formData.theme}
+        onChange={handleChange}
+        className=""
+      />
+      </FormGroup>
+      <FormGroup>
+      <Label htmlFor="focus">Focus: </Label>
+      <Input
+        id="focus"
+        type="text"
+        name="focus"
+        placeholder={initialState.focus}
+        value={formData.focus}
         onChange={handleChange}
         className=""
       />
       </FormGroup>
       
-      <Button>Update Exercise</Button>
+      <Button>Update Lesson Plan</Button>
     </Form>
   )
 
 }
 
-export default ExerciseUpdateForm;
+export default LessonPlanUpdateForm;
