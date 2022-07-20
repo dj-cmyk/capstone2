@@ -62,10 +62,12 @@ class ClassExercise {
     const classExercisesRes = await db.query(
           `SELECT 
               lp.order, 
+              lp."lessonPlanID",
               lp.theme, 
               lp.focus, 
               levels.name, 
               e.description, 
+              e."exerciseID",
               c."hasProp", 
               c."propDescription", 
               c.notes,
@@ -92,62 +94,95 @@ class ClassExercise {
     return classExercises;
   }
 
+  static async getClassEx(lessonPlanID, exerciseID) {
+    const classExRes = await db.query(
+          `SELECT  
+              lp."lessonPlanID",
+              e.description, 
+              e."exerciseID",
+              c."hasProp", 
+              c."propDescription", 
+              c.notes,
+              c.sequence,
+              c."spotifyURI"
+            FROM classes AS c
+            JOIN lesson_plans AS lp
+                ON c."lessonPlanID" = lp."lessonPlanID"
+            JOIN exercises AS e
+                ON c."exerciseID" = e."exerciseID"
+            WHERE c."lessonPlanID" = $1
+            AND c."exerciseID" = $2`,
+        [lessonPlanID, exerciseID]);
 
-  /*********** Update lesson plan data with `data`.
+    const classEx = classExRes.rows[0];
+
+    if (!classEx) throw new NotFoundError(`No exercise: ${exerciseID} for lesson plan: ${lessonPlanId}`);
+
+    return classEx;
+  }
+
+  /*********** Update class exercise data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain all the
    * fields; this only changes provided ones.
    *
-   * Data can include: {order, theme, focus}
+   * Data can include: {hasProp, propDescription, notes, sequence, spotifyURI}
    *
-   * Returns {lessonPlanID, order, theme, focus, "levelID"}
+   * Returns {lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI}
    *
    * Throws NotFoundError if not found.
    */
 
-//    static async update(id, data) {
-//     const { setCols, values } = sqlForPartialUpdate(
-//         data,
-//         {
-//           order: "order",
-//           theme: "theme",
-//           focus: "focus"
-//         });
-//     const handleVarIdx = "$" + (values.length + 1);
+   static async update(lessonPlanID, exerciseID, data) {
+    const { setCols, values } = sqlForPartialUpdate(
+        data,
+        {
+          hasProp: "hasProp",
+          propDescription: "propDescription",
+          notes: "notes",
+          sequence: "sequence", 
+          spotifyURI: "spotifyURI"
+        });
+    const handleVarIdx = "$" + (values.length + 1);
+    const handleVarIdx2 = "$" + (values.length + 2);
 
-//     const querySql = `UPDATE lesson_plans 
-//                       SET ${setCols} 
-//                       WHERE "lessonPlanID" = ${handleVarIdx} 
-//                       RETURNING "lessonPlanID", 
-//                                 "order", 
-//                                 theme, 
-//                                 focus, 
-//                                 "levelID"`;
-//     const result = await db.query(querySql, [...values, id]);
-//     const lessonPlan = result.rows[0];
+    const querySql = `UPDATE classes 
+                      SET ${setCols} 
+                      WHERE "lessonPlanID" = ${handleVarIdx} 
+                      AND "exerciseID" = ${handleVarIdx2}
+                      RETURNING "lessonPlanID",
+                                "exerciseID" 
+                                "hasProp", 
+                                "propDescription",
+                                notes, 
+                                sequence, 
+                                "spotifyURI"`;
+    const result = await db.query(querySql, [...values, lessonPlanID, exerciseID]);
+    const classEx = result.rows[0];
 
-//     if (!lessonPlan) throw new NotFoundError(`No lesson plan: ${id}`);
+    if (!classEx) throw new NotFoundError(`No exercise: ${exerciseID} for lesson plan: ${lessonPlanID}`);
 
-//     return lessonPlan;
-//   }
+    return classEx;
+  }
 
 
-    /*************** Delete given lesson plan from database; returns undefined.
+    /*************** Delete given class exercise from database; returns undefined.
    *
    * Throws NotFoundError if exercise not found.
    **/
 
-//   static async remove(id) {
-//     const result = await db.query(
-//           `DELETE
-//            FROM lesson_plans
-//            WHERE "lessonPlanID" = $1
-//            RETURNING "lessonPlanID"`,
-//         [id]);
-//     const lessonPlan = result.rows[0];
+  static async remove(lessonPlanID, exerciseID) {
+    const result = await db.query(
+          `DELETE
+           FROM classes
+           WHERE "lessonPlanID" = $1
+           AND "exerciseID" = $2
+           RETURNING "lessonPlanID", "exerciseID"`,
+        [lessonPlanID, exerciseID]);
+    const classEx = result.rows[0];
 
-//     if (!lessonPlan) throw new NotFoundError(`No lesson plan: ${id}`);
-//   }
+    if (!classEx) throw new NotFoundError(`No exercise: ${exerciseID} for lesson plan: ${lessonPlanID}`);
+  }
 }
 
 

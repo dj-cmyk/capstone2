@@ -5,7 +5,7 @@ import ClassCard from "./ClassCard";
 import "./ExerciseCard.css";
 
 
-function ClassExercises({code}) {
+function ClassExercises() {
     let params = useParams();
     let id = params.id;
 
@@ -38,7 +38,7 @@ function ClassExercises({code}) {
                 </CardBody>
             </Card>
 
-            <ClassCard classExercise={classExercises[sequence]} code={code}/>
+            <ClassCard classExercise={classExercises[sequence]} />
         
             <div>
                 {sequence !== 0 ? <button className="btn btn-outline-secondary btn-lg nav-buttons" onClick={() => setSequence(sequence - 1)}> Previous </button> : ""}

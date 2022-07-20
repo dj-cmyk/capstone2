@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import "./Form.css";
+import SearchBar from "./SearchBar";
+
 
 
 
 const ClassExerciseForm = ({addNewClassExercise}) => {
+  
   // set initial values of the form to be blank/empty
+  const [lessonPlans, setLessonPlans] = useState([])
+  const [exercises, setExercises] = useState([])
+  
+
     const INITIAL_STATE = {
     lessonPlanID: '',
     exerciseID: '',
@@ -15,11 +22,9 @@ const ClassExerciseForm = ({addNewClassExercise}) => {
     propDescription: '',
     spotifyURI: ''
   }
+  
 
-    const [lessonPlans, setLessonPlans] = useState([])
-    const [exercises, setExercises] = useState([])
-
-
+  
 
   useEffect(() => {
         fetch("/lessonPlans").then(res => {
@@ -36,7 +41,11 @@ const ClassExerciseForm = ({addNewClassExercise}) => {
     }, [])
 
 
-
+    const getURI = (uri) => {
+      setFormData({
+        spotifyURI: uri
+      })
+    }
 
 
   // initialize state for the form (blank) and prepare to re-route with useHistory once form is submitted
@@ -139,8 +148,19 @@ const ClassExerciseForm = ({addNewClassExercise}) => {
       <Input
         id="notes"
         type="text"
-        name="propDescription"
-        value={formData.propDescription}
+        name="notes"
+        value={formData.notes}
+        onChange={handleChange}
+        className=""
+      />
+      </FormGroup>
+      <FormGroup>
+      <Label htmlFor="spotifyURI">Spotify URI: </Label>
+      <Input
+        id="spotifyURI"
+        type="text"
+        name="spotifyURI"
+        value={formData.spotifyURI}
         onChange={handleChange}
         className=""
       />
@@ -148,6 +168,7 @@ const ClassExerciseForm = ({addNewClassExercise}) => {
      
       <Button>Add Exercise to Lesson Plan</Button>
     </Form>
+    <SearchBar getURI={getURI}/>
     </Container>
   )
 

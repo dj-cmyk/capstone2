@@ -33,25 +33,28 @@ app.use("/classes", classesRoutes);
 app.post('/login', (req, res) => {
     
     const code = req.body.code
+    console.log(code)
     const spotifyApi = new SpotifyWebApi({
         redirectUri: "http://localhost:3000",
         clientId: "a8701db3365941aea943d79b1b826150",
         clientSecret: "e2790e90405f401a8747290094f1ae33"
     })
 
-    spotifyApi.authorizationCodeGrant(code)
+    spotifyApi
+        .authorizationCodeGrant(code)
         .then(data => {
             res.json({
                 accessToken: data.body.access_token,
                 refreshToken: data.body.refresh_token,
                 expiresIn: data.body.expires_in
             })
-            console.log(data.body)
-            spotifyApi.setAccessToken(data.body.access_token);
-            spotifyApi.setRefreshToken(data.body.refresh_token);
+            
+            
+            // setAccessToken(data.body.access_token);
+            // setRefreshToken(data.body.refresh_token);
         })
-        .catch((e) => {
-            console.log("here is a problem", e)
+        .catch(err => {
+            console.log("here is a problem **********", err)
             res.sendStatus(400)
         })      
 })
@@ -63,25 +66,22 @@ app.post('/refresh', (req, res) => {
         redirectUri: "http://localhost:3000",
         clientId: "a8701db3365941aea943d79b1b826150",
         clientSecret: "e2790e90405f401a8747290094f1ae33",
-        refreshToken
+        refreshToken,
     })
 
-    spotifyApi.refreshAccessToken()
-        .then(
-            data => {
+    spotifyApi
+        .refreshAccessToken()
+        .then(data => {
             console.log('The access token has been refreshed!');
             res.json({
                 accessToken: data.body.access_token,
-                refreshToken: data.body.refresh_token,
-                expiresIn: data.body.expires_in
+                expiresIn: data.body.expires_in,
             })
-            console.log(data.body)
-            // Save the access token so that it's used in future calls
-            spotifyApi.setAccessToken(data.body['access_token']);
-        }).catch((err) => {
+        })
+        .catch(err => {
             console.log('Could not refresh access token', err);
             res.sendStatus(400)
-          });
+        });
 })
 
 

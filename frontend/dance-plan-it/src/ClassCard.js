@@ -1,12 +1,29 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import Player from "./Player";
-import useAuth from "./useAuth";
-import "./ExerciseCard.css";
 
-function ClassCard({ classExercise, code }) {
-    const accessToken = useAuth(code)
-    // console.log(accessToken)
+import SpotifyWebApi from "spotify-web-api-node"
+import "./ExerciseCard.css";
+import TokenContext from "./TokenContext";
+
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: "a8701db3365941aea943d79b1b826150",
+})
+
+
+
+function ClassCard({ classExercise }) {
+    const accessToken = useContext(TokenContext)
+
+
+    useEffect(() => {
+      if (!accessToken) return
+      spotifyApi.setAccessToken(accessToken)
+    }, [accessToken])
+
+
+  
   return (
     
       <Card className="Card">

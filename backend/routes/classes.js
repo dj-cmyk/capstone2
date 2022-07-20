@@ -59,51 +59,68 @@ router.get("/:id", async function (req, res, next) {
   }
 });
 
+/*********** GET /[lessonPlanID/exerciseID]  =>  { one specific class exercise }
+ *
+ *  class exercises is { lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }
+ *
+ * Authorization required: none
+ */
+
+ router.get("/:lessonPlanID/:exerciseID", async function (req, res, next) {
+  try {
+    const classExercise = await ClassExercise.getClassEx(req.params.lessonPlanID, req.params.exerciseID);
+    
+    return res.json({ classExercise });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 
 
-// /** PATCH /[id] { fld1, fld2, ... } => { exercise }
+
+// /** PATCH /[id] { fld1, fld2, ... } => { class exercise }
 //  *
-//  * Patches exercise data.
+//  * Patches class exercise data.
 //  *
-//  * fields can be: { description, hasProp, propDescription }
+//  * fields can be: { hasProp, propDescription, notes, sequence, spotifyURI }
 //  *
-//  * Returns { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+//  * Returns { levelCategoryID, exerciseCategoryID, hasProp, propDescription, notes, sequence, spotifyURI }
 //  *
 //  * EVENTUALLY -> Authorization required: admin
 //  */
 
-// router.patch("/:id", async function (req, res, next) {
-//   try {
-//     // const validator = jsonschema.validate(req.body, companyUpdateSchema);
-//     // if (!validator.valid) {
-//     //   const errs = validator.errors.map(e => e.stack);
-//     //   throw new BadRequestError(errs);
-//     // }
+router.patch("/:lessonPlanID/:exerciseID", async function (req, res, next) {
+  try {
+    // const validator = jsonschema.validate(req.body, companyUpdateSchema);
+    // if (!validator.valid) {
+    //   const errs = validator.errors.map(e => e.stack);
+    //   throw new BadRequestError(errs);
+    // }
 
-//     const lessonPlan = await LessonPlan.update(req.params.id, req.body);
-//     return res.json({ lessonPlan });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
-
-
+    const classEx = await ClassExercise.update(req.params.lessonPlanID, req.params.exerciseID, req.body);
+    return res.json({ classEx });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 
-// /************** DELETE /[id]  =>  { deleted: id }
+
+
+// /************** DELETE /[lessonPlanid]/[exerciseID]  =>  { deleted: id }
 //  *
 //  * EVENTUALLY -> Authorization: admin
 //  */
 
-// router.delete("/:id", async function (req, res, next) {
-//   try {
-//     await LessonPlan.remove(req.params.id);
-//     return res.json({ deleted: req.params.id });
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+router.delete("/:lessonPlanID/:exerciseID", async function (req, res, next) {
+  try {
+    await ClassExercise.remove(req.params.lessonPlanID, req.params.exerciseID);
+    return res.json({ deleted: {LessonPlan: req.params.lessonPlanID, Exercise: req.params.exerciseID} });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 
 module.exports = router;

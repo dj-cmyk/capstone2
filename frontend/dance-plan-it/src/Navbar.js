@@ -17,6 +17,9 @@ function NavBar() {
               <NavItem>
                 <NavLink to="/lessonPlans" className="btn outline-secondary btn-sm">All Lesson Plans</NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink to="/classes/new" className="btn outline-secondary btn-sm">ClassEx Form</NavLink>
+              </NavItem>
             </Nav>
           </Navbar>
         )

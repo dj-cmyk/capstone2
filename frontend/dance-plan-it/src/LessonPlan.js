@@ -27,6 +27,11 @@ function LessonPlan({ lessonPlan, level }) {
                   <b>Focus:</b> {lessonPlan.focus} </p> : ""} 
             </CardText>
             <Link 
+              to={`/classes/list/${lessonPlan.lessonPlanID}`} 
+              className="btn btn-outline-secondary nav-buttons">
+                List
+            </Link>
+            <Link 
               to={`/classes/${lessonPlan.lessonPlanID}`} 
               className="btn btn-outline-success nav-buttons">
                 Start
