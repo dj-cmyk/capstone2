@@ -1,5 +1,3 @@
-"use strict";
-
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { sqlForPartialUpdate } = require("../helpers/sql");
@@ -23,7 +21,7 @@ class LessonPlan {
           [theme]);
   
       if (duplicateCheck.rows[0])
-        throw new BadRequestError(`Duplicate exercise: ${description}`);
+        throw new BadRequestError(`Duplicate lesson plan for theme: ${theme}`);
   
       const result = await db.query(
             `INSERT INTO lesson_plans
@@ -56,36 +54,7 @@ class LessonPlan {
                             focus,
                             "levelID"
                      FROM lesson_plans`;
-        // let whereExpressions = [];
-        // let queryValues = [];
-    
-        // const { levelCategoryID, exerciseCategoryID, hasProp } = searchFilters;
-    
-        // // For each possible search term, add to whereExpressions and queryValues so
-        // // we can generate the right SQL
-    
-        // if (minEmployees !== undefined) {
-        //   queryValues.push(minEmployees);
-        //   whereExpressions.push(`num_employees >= $${queryValues.length}`);
-        // }
-    
-        // if (maxEmployees !== undefined) {
-        //   queryValues.push(maxEmployees);
-        //   whereExpressions.push(`num_employees <= $${queryValues.length}`);
-        // }
-    
-        // if (name) {
-        //   queryValues.push(`%${name}%`);
-        //   whereExpressions.push(`name ILIKE $${queryValues.length}`);
-        // }
-    
-        // if (whereExpressions.length > 0) {
-        //   query += " WHERE " + whereExpressions.join(" AND ");
-        // }
-    
-        // Finalize query and return results
-    
-        // query += " ORDER BY name";
+        
         const lessonPlanRes = await db.query(query);
         return lessonPlanRes.rows;
       }

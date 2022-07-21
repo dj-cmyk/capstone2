@@ -1,16 +1,14 @@
+require("dotenv").config()
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const SpotifyWebApi = require("spotify-web-api-node");
 
-
 const { NotFoundError } = require("./expressError");
-
 
 const exercisesRoutes = require("./routes/exercises");
 const lessonPlansRoutes = require("./routes/lesson_plans");
 const classesRoutes = require("./routes/classes");
-
 
 const app = express();
 app.use(cors())
@@ -18,21 +16,26 @@ app.use(bodyParser.json())
 app.use(express.json());
 
 
-
 app.use("/exercises", exercisesRoutes);
 app.use("/lessonPlans", lessonPlansRoutes);
 app.use("/classes", classesRoutes);
 
 
-
+/** Routes for authentication with SPOTIFY API 
+ * 
+ *  /login - login to spotify, set access token
+ * 
+ *  /refresh - refreshes access token 
+ * 
+ * */  
 app.post('/login', (req, res) => {
-    
+
     const code = req.body.code
     
     const spotifyApi = new SpotifyWebApi({
-        redirectUri: "http://localhost:3000",
-        clientId: "a8701db3365941aea943d79b1b826150",
-        clientSecret: "e2790e90405f401a8747290094f1ae33"
+        redirectUri: process.env.REDIRECT_URI,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET
     })
 
     spotifyApi
@@ -45,7 +48,6 @@ app.post('/login', (req, res) => {
             })
         })
         .catch(err => {
-            console.log("here is a problem **********", err)
             res.sendStatus(400)
         })      
 })
@@ -54,9 +56,9 @@ app.post('/refresh', (req, res) => {
     const refreshToken = req.body.refreshToken
     
     const spotifyApi = new SpotifyWebApi({
-        redirectUri: "http://localhost:3000",
-        clientId: "a8701db3365941aea943d79b1b826150",
-        clientSecret: "e2790e90405f401a8747290094f1ae33",
+        redirectUri: process.env.REDIRECT_URI,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
         refreshToken,
     })
 

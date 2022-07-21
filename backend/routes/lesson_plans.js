@@ -1,17 +1,8 @@
-"use strict";
-
 /** Routes for lesson plans. */
 
-// const jsonschema = require("jsonschema");
 const express = require("express");
 
-const { BadRequestError } = require("../expressError");
-// const { ensureAdmin } = require("../middleware/auth");
 const LessonPlan = require("../models/lesson_plan");
-
-// const companyNewSchema = require("../schemas/companyNew.json");
-// const companyUpdateSchema = require("../schemas/companyUpdate.json");
-// const companySearchSchema = require("../schemas/companySearch.json");
 
 const router = new express.Router();
 
@@ -26,12 +17,6 @@ const router = new express.Router();
 
 router.post("/", async function (req, res, next) {
   try {
-    // const validator = jsonschema.validate(req.body, companyNewSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-
     const lessonPlan = await LessonPlan.create(req.body);
     return res.status(201).json({ lessonPlan });
   } catch (err) {
@@ -51,20 +36,8 @@ router.post("/", async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
-//   const q = req.query;
-//   // arrive as strings from querystring, but we want as ints
-//   if (q.minEmployees !== undefined) q.minEmployees = +q.minEmployees;
-//   if (q.maxEmployees !== undefined) q.maxEmployees = +q.maxEmployees;
-
   try {
-    // const validator = jsonschema.validate(q, companySearchSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-
     const lessonPlans = await LessonPlan.findAll();
-    // console.log(exercises)
     return res.json({ lessonPlans });
   } catch (err) {
     return next(err);
@@ -102,7 +75,6 @@ router.get("/:id", async function (req, res, next) {
 router.get("/levels/:levelID", async function (req, res, next) {
   try {
     const lessonPlans = await LessonPlan.findAllByLevel(req.params.levelID);
-    
     return res.json({ lessonPlans });
   } catch (err) {
     return next(err);
@@ -111,25 +83,19 @@ router.get("/levels/:levelID", async function (req, res, next) {
 
 
 
-/** PATCH /[id] { fld1, fld2, ... } => { exercise }
+/** PATCH /[id] { fld1, fld2, ... } => { lesson plan }
  *
- * Patches exercise data.
+ * Patches lesson plan data.
  *
- * fields can be: { description, hasProp, propDescription }
+ * fields can be: { order, theme, focus }
  *
- * Returns { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+ * Returns { lessonPlanID, order, theme, focus }
  *
  * EVENTUALLY -> Authorization required: admin
  */
 
 router.patch("/:id", async function (req, res, next) {
   try {
-    // const validator = jsonschema.validate(req.body, companyUpdateSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-
     const lessonPlan = await LessonPlan.update(req.params.id, req.body);
     return res.json({ lessonPlan });
   } catch (err) {
@@ -142,6 +108,8 @@ router.patch("/:id", async function (req, res, next) {
 
 /************** DELETE /[id]  =>  { deleted: id }
  *
+ *  Deletes single lesson plan
+ * 
  * EVENTUALLY -> Authorization: admin
  */
 

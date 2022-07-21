@@ -1,5 +1,3 @@
-"use strict";
-
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { sqlForPartialUpdate } = require("../helpers/sql");
@@ -59,36 +57,7 @@ class Exercise {
                      FROM exercises AS e
                      JOIN exercise_categories AS ec
                      ON e."exerciseCategoryID" = ec."exerciseCategoryID"`;
-        // let whereExpressions = [];
-        // let queryValues = [];
-    
-        // const { levelCategoryID, exerciseCategoryID, hasProp } = searchFilters;
-    
-        // // For each possible search term, add to whereExpressions and queryValues so
-        // // we can generate the right SQL
-    
-        // if (minEmployees !== undefined) {
-        //   queryValues.push(minEmployees);
-        //   whereExpressions.push(`num_employees >= $${queryValues.length}`);
-        // }
-    
-        // if (maxEmployees !== undefined) {
-        //   queryValues.push(maxEmployees);
-        //   whereExpressions.push(`num_employees <= $${queryValues.length}`);
-        // }
-    
-        // if (name) {
-        //   queryValues.push(`%${name}%`);
-        //   whereExpressions.push(`name ILIKE $${queryValues.length}`);
-        // }
-    
-        // if (whereExpressions.length > 0) {
-        //   query += " WHERE " + whereExpressions.join(" AND ");
-        // }
-    
-        // Finalize query and return results
-    
-        // query += " ORDER BY name";
+        
         const exercisesRes = await db.query(query);
         return exercisesRes.rows;
       }

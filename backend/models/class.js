@@ -1,18 +1,16 @@
-"use strict";
-
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 
 
 
-/** Related functions for lesson plans. */
+/** Related functions for class exercises. */
 
 class ClassExercise {
     /** Create a class exercise framework, update db, return new class_exercise data.
-     * data should be { lessonPlanId, exerciseID, hasProp, propDescription, notes, spotifyURI }
+     * data should be { lessonPlanId, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }
      *
-     * Returns { lessonPlanId, exerciseID, hasProp, propDescription, notes, spotifyURI }
+     * Returns { lessonPlanId, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }
      * */
   
     static async create({ lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }) {
@@ -51,7 +49,7 @@ class ClassExercise {
 
 
 
-     /************ Given an lesson plan id, return all class exercises and notes.
+     /************ Given a lesson plan id, return all class exercises and notes.
    *
    * Returns { lessonPlanID, exercise information (category, description, hasProp, propDescription) }
    *

@@ -11,7 +11,6 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 
-
 function ClassCard({ classExercise }) {
     const accessToken = useContext(TokenContext)
 

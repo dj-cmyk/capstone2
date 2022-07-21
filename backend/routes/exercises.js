@@ -1,39 +1,23 @@
-"use strict";
-
 /** Routes for exercises. */
 
-// const jsonschema = require("jsonschema");
 const express = require("express");
 
-const { BadRequestError } = require("../expressError");
-// const { ensureAdmin } = require("../middleware/auth");
 const Exercise = require("../models/exercise");
-
-// const companyNewSchema = require("../schemas/companyNew.json");
-// const companyUpdateSchema = require("../schemas/companyUpdate.json");
-// const companySearchSchema = require("../schemas/companySearch.json");
 
 const router = new express.Router();
 
 
 /************* POST / { exercise } =>  { exercises }
  *
- * exercise should be { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
- * Returns { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+ * exercise should be { levelCategoryID, exerciseCategoryID, description }
+ * Returns { levelCategoryID, exerciseCategoryID, description }
  *
  * EVENTUALLY -> Authorization required: admin
  */
 
 router.post("/", async function (req, res, next) {
   try {
-    // const validator = jsonschema.validate(req.body, companyNewSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-    
       const exercise = await Exercise.create(req.body);
-      
       return res.status(201).json({ exercise });
   } catch (err) {
     return next(err);
@@ -41,30 +25,22 @@ router.post("/", async function (req, res, next) {
 });
 
 /**************** GET /  =>
- *   { exercises: [ { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }, ...] }
+ *   { exercises: [ { levelCategoryID, exerciseCategoryID, description } ] }
  *
  * EVENTUALLY -> Can filter on provided search filters:
  * - levelCategoryID
  * - exerciseCategoryID
  *
+ *   { categories: [ { exerciseCategoryID, name } ] }
+ * 
+ *   { levelCategories: [ { levelCategoryID, name } ] }
+ * 
  * Authorization required: none
  */
 
 router.get("/", async function (req, res, next) {
-//   const q = req.query;
-//   // arrive as strings from querystring, but we want as ints
-//   if (q.minEmployees !== undefined) q.minEmployees = +q.minEmployees;
-//   if (q.maxEmployees !== undefined) q.maxEmployees = +q.maxEmployees;
-
   try {
-    // const validator = jsonschema.validate(q, companySearchSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-
     const exercises = await Exercise.findAll();
-    // console.log(exercises)
     return res.json({ exercises });
   } catch (err) {
     return next(err);
@@ -74,7 +50,6 @@ router.get("/", async function (req, res, next) {
 router.get("/categories", async function (req, res, next) {
     try {
       const exerciseCategories = await Exercise.getCategories();
-      
       return res.json({ exerciseCategories });
     } catch (err) {
       return next(err);
@@ -84,16 +59,17 @@ router.get("/categories", async function (req, res, next) {
   router.get("/levelCategories", async function (req, res, next) {
     try {
       const levelCategories = await Exercise.getLevelCategories();
-      
       return res.json({ levelCategories });
     } catch (err) {
       return next(err);
     }
   });
 
+
+
 /*********** GET /[id]  =>  { exercise }
  *
- *  Exercise is { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+ *  Exercise is { levelCategoryID, exerciseCategoryID, description }
  *
  * Authorization required: none
  */
@@ -114,23 +90,16 @@ router.get("/:id", async function (req, res, next) {
  *
  * Patches exercise data.
  *
- * fields can be: { description, hasProp, propDescription }
+ * fields can be: { description }
  *
- * Returns { levelCategoryID, exerciseCategoryID, description, hasProp, propDescription }
+ * Returns { levelCategoryID, exerciseCategoryID, description }
  *
  * EVENTUALLY -> Authorization required: admin
  */
 
 router.patch("/:id", async function (req, res, next) {
   try {
-    // const validator = jsonschema.validate(req.body, companyUpdateSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-    
     const exercise = await Exercise.update(req.params.id, req.body.description);
-    
     return res.json({ exercise });
   } catch (err) {
     return next(err);
@@ -142,6 +111,8 @@ router.patch("/:id", async function (req, res, next) {
 
 /************** DELETE /[id]  =>  { deleted: id }
  *
+ *  Deletes a single exercise
+ * 
  * EVENTUALLY -> Authorization: admin
  */
 

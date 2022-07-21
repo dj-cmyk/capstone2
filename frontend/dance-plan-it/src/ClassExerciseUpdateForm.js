@@ -11,16 +11,14 @@ const ClassExerciseUpdateForm = () => {
     let lessonPlanID = params.lessonPlanID
     let exerciseID = params.exerciseID
 
-    
-    
-    const [initialState, setInitialState] = useState({
+    const initialState = {
         lessonPlanID: lessonPlanID,
         description: '',
         sequence: '',
         hasProp: false,
         propDescription: '',
         spotifyURI: ''
-        })
+        }
     const [checked, setChecked] = useState(initialState.hasProp)
 
   useEffect(() => {

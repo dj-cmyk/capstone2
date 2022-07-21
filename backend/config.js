@@ -1,6 +1,4 @@
-"use strict";
-
-const SECRET_KEY = process.env.SECRET_KEY || "secretsssss";
+// const SECRET_KEY = process.env.SECRET_KEY || "secretsssss";
 
 const PORT = +process.env.PORT || 3001;
 
@@ -11,13 +9,9 @@ function getDatabaseUri() {
       : process.env.DATABASE_URL || "dance_plan_it";
 }
 
-// Speed up bcrypt during tests, since the algorithm safety isn't being tested
-const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
-
 
 module.exports = {
-  SECRET_KEY,
+  // SECRET_KEY,
   PORT,
-  BCRYPT_WORK_FACTOR,
   getDatabaseUri,
 };

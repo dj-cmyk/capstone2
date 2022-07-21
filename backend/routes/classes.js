@@ -1,37 +1,22 @@
-"use strict";
-
 /** Routes for class_exercises. */
 
-// const jsonschema = require("jsonschema");
 const express = require("express");
 
-const { BadRequestError } = require("../expressError");
-// const { ensureAdmin } = require("../middleware/auth");
 const ClassExercise = require("../models/class");
-
-// const companyNewSchema = require("../schemas/companyNew.json");
-// const companyUpdateSchema = require("../schemas/companyUpdate.json");
-// const companySearchSchema = require("../schemas/companySearch.json");
 
 const router = new express.Router();
 
 
 /************* POST / { classExercise } =>  { classExercise }
  *
- * lesson plan should be { lessonPlanID, exerciseID, notes }
- * Returns { lessonPlanID, exerciseID, notes }
+ * class exercises should be { lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }
+ * Returns { lessonPlanID, exerciseID, hasProp, propDescription, notes, sequence, spotifyURI }
  *
  * EVENTUALLY -> Authorization required: admin
  */
 
 router.post("/", async function (req, res, next) {
   try {
-    // const validator = jsonschema.validate(req.body, companyNewSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-
     const classExercise = await ClassExercise.create(req.body);
     return res.status(201).json({ classExercise });
   } catch (err) {
@@ -40,12 +25,9 @@ router.post("/", async function (req, res, next) {
 });
 
 
-
-
-
-/*********** GET /[id]  =>  { all class exercises for a given lesson plan }
+/*********** GET /[id]  =>  { all class exercises for a given lesson plan id}
  *
- *  class exercises is { lessonPlanID, order, theme, focus, levelID }
+ *  class exercises is { lessonPlanID, order, theme, focus, levelID, exercise description, hasProp, propDescription, notes, sequence, spotifyURI }
  *
  * Authorization required: none
  */
@@ -69,7 +51,6 @@ router.get("/:id", async function (req, res, next) {
  router.get("/:lessonPlanID/:exerciseID", async function (req, res, next) {
   try {
     const classExercise = await ClassExercise.getClassEx(req.params.lessonPlanID, req.params.exerciseID);
-    console.log("***********", classExercise)
     return res.json({ classExercise });
   } catch (err) {
     return next(err);
@@ -77,9 +58,7 @@ router.get("/:id", async function (req, res, next) {
 });
 
 
-
-
-// /** PATCH /[id] { fld1, fld2, ... } => { class exercise }
+// /** PATCH /[lessonPlanID]/[exerciseID] { fld1, fld2, ... } => { class exercise }
 //  *
 //  * Patches class exercise data.
 //  *
@@ -92,20 +71,12 @@ router.get("/:id", async function (req, res, next) {
 
 router.patch("/:lessonPlanID/:exerciseID", async function (req, res, next) {
   try {
-    // const validator = jsonschema.validate(req.body, companyUpdateSchema);
-    // if (!validator.valid) {
-    //   const errs = validator.errors.map(e => e.stack);
-    //   throw new BadRequestError(errs);
-    // }
-
     const classEx = await ClassExercise.update(req.params.lessonPlanID, req.params.exerciseID, req.body);
     return res.json({ classEx });
   } catch (err) {
     return next(err);
   }
 });
-
-
 
 
 // /************** DELETE /[lessonPlanid]/[exerciseID]  =>  { deleted: id }
