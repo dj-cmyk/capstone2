@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import { Card, CardBody, CardTitle, CardText, ListGroup, ListGroupItem } from "reactstrap";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 import "./ExerciseCard.css";
@@ -48,20 +48,21 @@ function ClassExercisesList() {
                         Exercises:
                     </CardTitle>
 
-                    <CardText className="Card-Text">
+                    
                     
                         {classExercises.map(ce => (
-                            <ListGroup variant="flush">
+                            <ListGroup>
                                 <ListGroupItem>
                                     <div><b>{ce.name}</b> - {ce.description}</div>
 
-                                    <a href={`/classes/update/${ce.lessonPlanID}/${ce.exerciseID}`} className="btn btn-outline-primary btn-sm nav-buttons">Update</a>
+                                    <Link to={`/classes/update/${ce.lessonPlanID}/${ce.exerciseID}`} className="btn btn-outline-primary btn-sm nav-buttons">Update</Link>
                                     
                                     <button className="btn btn-outline-danger btn-sm nav-buttons" onClick={() => deleteClassExercise(ce.lessonPlanID, ce.exerciseID)}> Delete </button>
                                 </ListGroupItem>
                             </ListGroup>
+                             
                         ))}
-                    </CardText>
+                    
                 </CardBody>
             </Card>
             

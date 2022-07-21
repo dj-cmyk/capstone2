@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import { Link } from "react-router-dom";
 import { ListGroup } from "reactstrap";
-// import LessonPlansByLevel from './LessonPlansByLevel';
 import './Dashboard.css';
 
 

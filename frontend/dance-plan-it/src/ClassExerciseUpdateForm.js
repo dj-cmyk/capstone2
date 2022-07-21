@@ -12,46 +12,39 @@ const ClassExerciseUpdateForm = () => {
     let exerciseID = params.exerciseID
 
     
-    const [exercise, setExercise] = useState()
+    
     const [initialState, setInitialState] = useState({
         lessonPlanID: lessonPlanID,
-        exerciseID: exerciseID,
-        sequence: '', 
+        description: '',
+        sequence: '',
         hasProp: false,
         propDescription: '',
         spotifyURI: ''
-    })
-    
+        })
+    const [checked, setChecked] = useState(initialState.hasProp)
 
   useEffect(() => {
-    fetch(`/classes/${lessonPlanID}/${exerciseID}`)
-        .then(res => {
-            if(res.ok) {
-            return res.json()
-            }
-        })
-        .then(jsonRes => setExercise(jsonRes.classExercise))
+    const getData = async () => {
+        let classEx = await axios.get(`/classes/${lessonPlanID}/${exerciseID}`)
 
-    exercise ? 
-        setInitialState({
-        lessonPlanID: lessonPlanID,
-        exerciseID: exerciseID,
-        sequence: exercise.sequence || '',
-        hasProp: exercise.hasProp,
-        propDescription: exercise.propDescription || '',
-        spotifyURI: exercise.spotifyURI || ''
-        })
-    : setInitialState({
-        lessonPlanID: lessonPlanID,
-        exerciseID: exerciseID,
-        sequence: '', 
-        hasProp: false,
-        propDescription: '',
-        spotifyURI: ''
-    })
+        classEx.data.classExercise.hasProp ? setChecked(true) : setChecked(false)
 
-    console.log(exercise.spotifyURI, exercise.sequence)
-    }, [])
+        setFormData({
+            lessonPlanID: lessonPlanID,
+            description: classEx.data.classExercise.description,
+            sequence: classEx.data.classExercise.sequence,
+            hasProp: checked,
+            propDescription: classEx.data.classExercise.propDescription,
+            spotifyURI: classEx.data.classExercise.spotifyURI
+            }) 
+      }
+      
+    // call the function
+    getData()
+        // make sure to catch any error
+        .catch(console.error);    
+    
+    }, [lessonPlanID, exerciseID])
 
 
   // initialize state for the form (blank) and prepare to re-route with useHistory once form is submitted
@@ -60,25 +53,35 @@ const ClassExerciseUpdateForm = () => {
 
   const updateClassEx = async (lessonPlanID, exerciseID, data) => {
         let dataToSend = {
-            description: data.description
+            sequence: data.sequence,
+            hasProp: checked,
+            propDescription: data.propDescription,
+            notes: data.notes,
+            spotifyURI: data.spotifyURI
         }
         let res = await axios.patch(`http://localhost:3001/classes/${lessonPlanID}/${exerciseID}`, dataToSend)
+        console.log("updated class ex")
         return res
   }
 
   const getURI = (uri) => {
     setFormData({
-      spotifyURI: uri
+        spotifyURI: uri
     })
   }
 
   // this makes it so react is controlling the form
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if(e.target.type === "checkbox") {
+        setChecked(!checked)
+    }
+    
     setFormData(formData => ({
       ...formData,
       [name]: value
     }))
+    
   }
 
   
@@ -89,7 +92,7 @@ const ClassExerciseUpdateForm = () => {
     updateClassEx(lessonPlanID, exerciseID, {...formData} )
     
     // redirect to exercise page to see newly added exercise
-    navigate("/exercises", { replace: true });
+    navigate(`/classes/list/${lessonPlanID}`, { replace: true });
     
     // reset the form to blank
     setFormData(initialState)
@@ -99,30 +102,14 @@ const ClassExerciseUpdateForm = () => {
     <Container>
         <Form onSubmit={handleSubmit} className="Form">
         
-        {/* <FormGroup>
-            <Label htmlFor="lessonPlanID">LessonPlan: </Label>
-            <Input
-            id="lessonPlanID"
-            type="text"
-            name="lessonPlanID"
-            value={initialState.lessonPlanID}
-            onChange={handleChange}
-            className=""
-            >
-            </Input>
+        <FormGroup>
+            <Label htmlFor="lessonPlanID"><b>LessonPlan:</b> {formData.lessonPlanID}</Label>
+
         </FormGroup>
         <FormGroup>
-            <Label htmlFor="exerciseID">Exercise: </Label>
-            <Input
-            id="exerciseID"
-            type="text"
-            name="exerciseID"
-            value={initialState.exerciseID}
-            onChange={handleChange}
-            className=""
-            >
-            </Input>
-        </FormGroup> */}
+            <Label htmlFor="description"><b>Exercise Description:</b> {formData.description}</Label>
+
+        </FormGroup>
         <FormGroup>
         <Label htmlFor="sequence">Sequence: </Label>
         <Input
@@ -139,6 +126,7 @@ const ClassExerciseUpdateForm = () => {
         <Input
             id="hasProp"
             type="checkbox"
+            checked={checked}
             name="hasProp"
             value={formData.hasProp}
             onChange={handleChange}
@@ -179,9 +167,10 @@ const ClassExerciseUpdateForm = () => {
         />
         </FormGroup>
         
-        <Button>Add Exercise to Lesson Plan</Button>
+        <Button>Update Exercise in Lesson Plan</Button>
         </Form>
-        {/* <SearchBar getURI={getURI}/> */}
+
+        <SearchBar getURI={getURI}/>
     </Container>
   )
 

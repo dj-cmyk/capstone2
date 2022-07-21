@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import Player from "./Player";
-
 import SpotifyWebApi from "spotify-web-api-node"
 import "./ExerciseCard.css";
 import TokenContext from "./TokenContext";

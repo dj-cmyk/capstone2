@@ -20,12 +20,12 @@ function LessonPlan({ lessonPlan, level }) {
           <CardTitle className="Card-Title">
           {level} - WEEK {lessonPlan.order}
           </CardTitle>
-            <CardText className="Card-Text">
-              {lessonPlan.theme ? <p className="Card-SubText">
-                  <b>Theme:</b> {lessonPlan.theme} </p> : ""}
-              {lessonPlan.focus ? <p className="Card-SubText">
-                  <b>Focus:</b> {lessonPlan.focus} </p> : ""} 
-            </CardText>
+            
+              {lessonPlan.theme ? <div className="Card-SubText">
+                  <b>Theme:</b> {lessonPlan.theme} </div> : ""}
+              {lessonPlan.focus ? <div className="Card-SubText">
+                  <b>Focus:</b> {lessonPlan.focus} </div> : ""} 
+            
             <Link 
               to={`/classes/list/${lessonPlan.lessonPlanID}`} 
               className="btn btn-outline-secondary nav-buttons">

@@ -69,7 +69,7 @@ router.get("/:id", async function (req, res, next) {
  router.get("/:lessonPlanID/:exerciseID", async function (req, res, next) {
   try {
     const classExercise = await ClassExercise.getClassEx(req.params.lessonPlanID, req.params.exerciseID);
-    
+    console.log("***********", classExercise)
     return res.json({ classExercise });
   } catch (err) {
     return next(err);

@@ -31,7 +31,7 @@ router.post("/", async function (req, res, next) {
     //   const errs = validator.errors.map(e => e.stack);
     //   throw new BadRequestError(errs);
     // }
-    console.log(req.body)
+    
       const exercise = await Exercise.create(req.body);
       
       return res.status(201).json({ exercise });

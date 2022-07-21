@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
+import { Link } from "react-router-dom";
 import "./ExerciseCard.css";
 
 function ExerciseCard({ exercise }) {
@@ -26,7 +27,7 @@ function ExerciseCard({ exercise }) {
                   <b>Prop Description:</b> {exercise.propDescription}
                 </p> 
                 : ""}
-            <a href={`/exercises/update/${exercise.exerciseID}`} className="btn btn-outline-primary nav-buttons">Update</a>
+            <Link to={`/exercises/update/${exercise.exerciseID}`} className="btn btn-outline-primary nav-buttons">Update</Link>
             <button className="btn btn-outline-danger nav-buttons" onClick={() => deleteExercise(exercise.exerciseID)}> Delete </button>
         </CardBody>
       </Card>
