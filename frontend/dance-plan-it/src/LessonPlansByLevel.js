@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import LessonPlan from './LessonPlan';
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 const LessonPlansByLevel = () => {
     let params = useParams();
@@ -15,8 +16,8 @@ const LessonPlansByLevel = () => {
 
     useEffect(() => {
         const getData = async () => {
-            let res = await axios.get(`/lessonPlans/levels/${levelID}`)
-            let levelsRes = await axios.get(`/lessonPlans/levels`)
+            let res = await axios.get(`${BASE_URL}/lessonPlans/levels/${levelID}`)
+            let levelsRes = await axios.get(`${BASE_URL}/lessonPlans/levels`)
             setLessonPlans(res.data.lessonPlans)
             
             setLevels(levelsRes.data.levels) 

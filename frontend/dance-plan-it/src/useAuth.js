@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
+
 export default function useAuth(code) {
   const [accessToken, setAccessToken] = useState()
   const [refreshToken, setRefreshToken] = useState()
@@ -8,7 +10,7 @@ export default function useAuth(code) {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/login", {
+      .post(`https://dance-plan-it.herokuapp.com/login`, {
         code,
       })
       .then(res => {
@@ -28,7 +30,7 @@ export default function useAuth(code) {
     if (!refreshToken || !expiresIn) return
     const interval = setInterval(() => {
       axios
-        .post("http://localhost:3001/refresh", {
+        .post(`${BASE_URL}/refresh`, {
           refreshToken,
         })
         .then(res => {

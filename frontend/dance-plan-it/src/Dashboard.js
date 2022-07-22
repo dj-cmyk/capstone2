@@ -4,13 +4,14 @@ import { ListGroup } from "reactstrap";
 import './Dashboard.css';
 
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 const Dashboard = () => {
     const [levels, setLevels] = useState()
 
 
     useEffect(() => {
-        fetch("/lessonPlans/levels").then(res => {
+        fetch(`${BASE_URL}/lessonPlans/levels`).then(res => {
             if(res.ok) {
                 return res.json()
             }

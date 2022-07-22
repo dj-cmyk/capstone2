@@ -5,11 +5,12 @@ import axios from 'axios';
 import "./ExerciseCard.css";
 
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 function LessonPlan({ lessonPlan, level }) {
 
   const deleteLessonPlan = async (id) => {
-    let res = await axios.delete(`http://localhost:3001/lessonPlans/${id}`)
+    let res = await axios.delete(`${BASE_URL}/lessonPlans/${id}`)
     return res
 }
 

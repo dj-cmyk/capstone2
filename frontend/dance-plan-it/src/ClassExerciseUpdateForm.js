@@ -6,6 +6,8 @@ import SearchBar from "./SearchBar";
 import "./Form.css";
 
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
+
 const ClassExerciseUpdateForm = () => {
     let params = useParams();
     let lessonPlanID = params.lessonPlanID
@@ -23,7 +25,7 @@ const ClassExerciseUpdateForm = () => {
 
   useEffect(() => {
     const getData = async () => {
-        let classEx = await axios.get(`/classes/${lessonPlanID}/${exerciseID}`)
+        let classEx = await axios.get(`${BASE_URL}/classes/${lessonPlanID}/${exerciseID}`)
 
         classEx.data.classExercise.hasProp ? setChecked(true) : setChecked(false)
 
@@ -57,7 +59,7 @@ const ClassExerciseUpdateForm = () => {
             notes: data.notes,
             spotifyURI: data.spotifyURI
         }
-        let res = await axios.patch(`http://localhost:3001/classes/${lessonPlanID}/${exerciseID}`, dataToSend)
+        let res = await axios.patch(`${BASE_URL}/classes/${lessonPlanID}/${exerciseID}`, dataToSend)
         console.log("updated class ex")
         return res
   }

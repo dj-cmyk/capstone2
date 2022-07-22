@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import "./Form.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 const ExerciseForm = ({addNewExercise}) => {
   // set initial values of the form to be blank/empty
@@ -17,13 +18,13 @@ const ExerciseForm = ({addNewExercise}) => {
   
 
   useEffect(() => {
-    fetch("/exercises/categories").then(res => {
+    fetch(`${BASE_URL}/exercises/categories`).then(res => {
         if(res.ok) {
             return res.json()
         }
     }).then(jsonRes => setExerciseCategories(jsonRes.exerciseCategories))
 
-    fetch("/exercises/levelCategories").then(res => {
+    fetch(`${BASE_URL}/exercises/levelCategories`).then(res => {
         if(res.ok) {
             return res.json()
         }

@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import "./ExerciseCard.css";
 import ExerciseCard from "./ExerciseCard";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
+
 function ExerciseList() {
     const [exercises, setExercises] = useState([])
 
     useEffect(() => {
-        fetch("/exercises").then(res => {
+        fetch(`${BASE_URL}/exercises`).then(res => {
             if(res.ok) {
                 return res.json()
             }

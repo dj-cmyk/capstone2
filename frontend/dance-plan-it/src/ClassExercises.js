@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import ClassCard from "./ClassCard";
 import "./ExerciseCard.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 function ClassExercises() {
     let params = useParams();
@@ -13,7 +14,7 @@ function ClassExercises() {
     const [sequence, setSequence] = useState(0);
 
     useEffect(() => {
-            fetch(`/classes/${id}`).then(res => {
+            fetch(`${BASE_URL}/classes/${id}`).then(res => {
                 if(res.ok) {
                     return res.json()
                 }

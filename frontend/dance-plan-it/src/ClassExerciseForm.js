@@ -5,7 +5,7 @@ import "./Form.css";
 import SearchBar from "./SearchBar";
 
 
-
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 const ClassExerciseForm = ({addNewClassExercise}) => {
   
@@ -27,13 +27,13 @@ const ClassExerciseForm = ({addNewClassExercise}) => {
   
 
   useEffect(() => {
-        fetch("/lessonPlans").then(res => {
+        fetch(`${BASE_URL}/lessonPlans`).then(res => {
             if(res.ok) {
                 return res.json()
             }
         }).then(jsonRes => setLessonPlans(jsonRes.lessonPlans))
 
-        fetch("/exercises").then(res => {
+        fetch(`${BASE_URL}/exercises`).then(res => {
             if(res.ok) {
                 return res.json()
             }

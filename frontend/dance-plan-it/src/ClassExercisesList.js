@@ -5,6 +5,7 @@ import axios from "axios";
 
 import "./ExerciseCard.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 function ClassExercisesList() {
     let params = useParams();
@@ -14,7 +15,7 @@ function ClassExercisesList() {
     
 
     useEffect(() => {
-            fetch(`/classes/${id}`).then(res => {
+            fetch(`${BASE_URL}/classes/${id}`).then(res => {
                 if(res.ok) {
                     return res.json()
                 }
@@ -24,7 +25,7 @@ function ClassExercisesList() {
     if (!classExercises) return <p>Loading &hellip;</p>;
     
     const deleteClassExercise = async (lessonPlanID, exerciseID) => {
-        let res = await axios.delete(`http://localhost:3001/classes/${lessonPlanID}/${exerciseID}`)
+        let res = await axios.delete(`${BASE_URL}/classes/${lessonPlanID}/${exerciseID}`)
         return res
     }
 

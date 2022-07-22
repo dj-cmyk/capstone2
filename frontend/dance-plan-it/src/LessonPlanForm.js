@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import "./Form.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 const LessonPlanForm = ({addNewLessonPlan}) => {
   // set initial values of the form to be blank/empty
@@ -18,7 +19,7 @@ const LessonPlanForm = ({addNewLessonPlan}) => {
   
 
   useEffect(() => {
-    fetch("/lessonPlans/levels").then(res => {
+    fetch(`${BASE_URL}/lessonPlans/levels`).then(res => {
         if(res.ok) {
             return res.json()
         }

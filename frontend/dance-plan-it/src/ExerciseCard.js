@@ -4,10 +4,12 @@ import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./ExerciseCard.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
+
 function ExerciseCard({ exercise }) {
 
   const deleteExercise = async (id) => {
-      let res = await axios.delete(`http://localhost:3001/exercises/${id}`)
+      let res = await axios.delete(`${BASE_URL}/exercises/${id}`)
       return res
   }
 

@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from "axios";
 import "./Form.css";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 const ExerciseUpdateForm = () => {
     let params = useParams();
@@ -18,7 +19,7 @@ const ExerciseUpdateForm = () => {
   
 
   useEffect(() => {
-    fetch(`/exercises/${id}`).then(res => {
+    fetch(`${BASE_URL}/exercises/${id}`).then(res => {
         if(res.ok) {
             return res.json()
         }
@@ -34,7 +35,7 @@ const ExerciseUpdateForm = () => {
         let dataToSend = {
             description: data.description
         }
-        let res = await axios.patch(`http://localhost:3001/exercises/${id}`, dataToSend)
+        let res = await axios.patch(`${BASE_URL}/exercises/${id}`, dataToSend)
         return res
   }
 

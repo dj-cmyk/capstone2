@@ -22,7 +22,7 @@ import ClassExerciseUpdateForm from './ClassExerciseUpdateForm';
 
 
 const code = new URLSearchParams(window.location.search).get("code")
-const BASE_URL = "http://localhost:3001"
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001"
 
 function App() {
   const accessToken = useAuth(code)
